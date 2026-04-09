@@ -1,0 +1,1924 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MedTrack 完整面试指南 — Haixin Yue 35737735</title>
+  <style>
+    :root {
+      --bg: #0b1020;
+      --panel: #121933;
+      --panel-2: #182142;
+      --text: #eef2ff;
+      --muted: #a7b0d6;
+      --line: #2d3a6b;
+      --accent: #7aa2ff;
+      --accent-2: #9ae6b4;
+      --accent-3: #f6ad55;
+      --accent-4: #fc8181;
+      --shadow: 0 16px 40px rgba(0,0,0,.28);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', ui-sans-serif, system-ui, -apple-system, sans-serif;
+      background:
+        radial-gradient(circle at top right, rgba(122,162,255,.15), transparent 28%),
+        radial-gradient(circle at top left, rgba(154,230,180,.08), transparent 22%),
+        var(--bg);
+      color: var(--text);
+    }
+    .layout {
+      display: grid;
+      grid-template-columns: 290px minmax(0, 1fr);
+      min-height: 100vh;
+    }
+    .sidebar {
+      position: sticky; top: 0; height: 100vh; overflow: auto;
+      padding: 24px 18px;
+      border-right: 1px solid var(--line);
+      background: rgba(11,16,32,.86);
+      backdrop-filter: blur(14px);
+    }
+    .brand { margin-bottom: 18px; }
+    .brand h1 { margin: 0 0 6px; font-size: 1.2rem; line-height:1.3; }
+    .brand p { margin: 0; color: var(--muted); font-size: .85rem; line-height:1.5; }
+    .search {
+      width: 100%; margin: 14px 0 10px;
+      padding: 11px 13px; border-radius: 11px;
+      border: 1px solid var(--line); background: var(--panel);
+      color: var(--text); outline: none; font-size: .88rem;
+    }
+    .toolbar { display:flex; gap:8px; margin-bottom:12px; }
+    .toolbar button {
+      flex:1; background: var(--panel); border:1px solid var(--line);
+      color: var(--text); border-radius: 10px; padding: 9px 10px;
+      cursor:pointer; font: inherit; font-size: .82rem;
+    }
+    .toolbar button:hover { border-color: var(--accent); }
+    .nav-section-label {
+      font-size: .72rem; font-weight: 700; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--muted);
+      padding: 10px 4px 5px; margin-top: 6px;
+    }
+    .nav-group {
+      border: 1px solid var(--line); background: var(--panel);
+      border-radius: 13px; margin-bottom: 10px; overflow: hidden;
+    }
+    .nav-group summary {
+      cursor: pointer; list-style: none; padding: 12px 14px;
+      font-weight: 700; font-size: .86rem; background: var(--panel-2);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .nav-group summary::-webkit-details-marker { display:none; }
+    .nav-links { padding: 6px; display: grid; gap: 4px; }
+    .nav-question {
+      display: block; color: var(--muted); text-decoration: none;
+      padding: 8px 10px; border-radius: 9px; line-height: 1.3;
+      font-size: .82rem;
+    }
+    .nav-question:hover, .nav-question.active {
+      background: rgba(122,162,255,.12); color: var(--text);
+    }
+    main { padding: 28px clamp(16px, 3vw, 40px) 60px; }
+    .hero {
+      margin-bottom: 20px; padding: 28px;
+      border: 1px solid var(--line); border-radius: 22px;
+      background: linear-gradient(160deg, rgba(24,33,66,.98), rgba(11,16,32,.95));
+      box-shadow: var(--shadow);
+    }
+    .hero h2 { margin: 0 0 10px; font-size: clamp(1.5rem, 2.2vw, 2rem); }
+    .hero p { margin: 0; color: var(--muted); line-height: 1.7; max-width: 860px; }
+    .stats { display:flex; flex-wrap:wrap; gap:10px; margin-top:16px; }
+    .stat {
+      padding: 10px 14px; border-radius: 13px;
+      background: rgba(122,162,255,.08);
+      border: 1px solid rgba(122,162,255,.22); min-width: 110px;
+    }
+    .stat strong { display:block; font-size:1.1rem; }
+    .stat span { font-size: .8rem; color: var(--muted); }
+    .section-divider {
+      display: flex; align-items: center; gap: 14px;
+      margin: 32px 0 20px;
+    }
+    .section-divider h3 {
+      margin: 0; font-size: 1.05rem; white-space: nowrap;
+      color: var(--accent); letter-spacing: .02em;
+    }
+    .section-divider::after {
+      content: ''; flex: 1; height: 1px; background: var(--line);
+    }
+    .walk-card {
+      border: 1px solid var(--line);
+      background: rgba(18,25,51,.9);
+      border-radius: 18px; padding: 22px;
+      box-shadow: var(--shadow); margin-bottom: 16px;
+    }
+    .walk-card .wc-header {
+      display: flex; align-items: center; gap: 12px; margin-bottom: 14px;
+    }
+    .wc-icon {
+      width: 40px; height: 40px; border-radius: 11px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; flex-shrink: 0;
+    }
+    .wc-icon.blue { background: rgba(122,162,255,.15); border: 1px solid rgba(122,162,255,.3); }
+    .wc-icon.green { background: rgba(154,230,180,.12); border: 1px solid rgba(154,230,180,.25); }
+    .wc-icon.amber { background: rgba(246,173,85,.12); border: 1px solid rgba(246,173,85,.25); }
+    .wc-icon.red { background: rgba(252,129,129,.1); border: 1px solid rgba(252,129,129,.22); }
+    .wc-icon.purple { background: rgba(183,148,255,.12); border: 1px solid rgba(183,148,255,.25); }
+    .wc-title { margin: 0; font-size: 1.12rem; }
+    .wc-subtitle { margin: 3px 0 0; font-size: .82rem; color: var(--muted); }
+    .walk-card p { line-height: 1.75; color: var(--text); margin: 8px 0; }
+    .walk-card h4 { margin: 16px 0 6px; color: #ccd8ff; font-size: .95rem; }
+    .walk-card ul { padding-left: 1.3em; margin: 6px 0; }
+    .walk-card ul li { margin-bottom: 5px; line-height: 1.6; font-size: .93rem; }
+    .flow-wrap {
+      display: flex; flex-wrap: wrap; align-items: center;
+      gap: 8px; padding: 18px; margin: 12px 0;
+      border: 1px solid var(--line); border-radius: 14px;
+      background: rgba(0,0,0,.2);
+    }
+    .flow-box {
+      padding: 8px 14px; border-radius: 10px; font-size: .85rem;
+      font-weight: 600; border: 1px solid;
+    }
+    .flow-box.welcome { background:rgba(122,162,255,.12); border-color:rgba(122,162,255,.3); color: var(--accent); }
+    .flow-box.auth { background:rgba(154,230,180,.1); border-color:rgba(154,230,180,.25); color: var(--accent-2); }
+    .flow-box.home { background:rgba(246,173,85,.1); border-color:rgba(246,173,85,.25); color: var(--accent-3); }
+    .flow-box.sub { background:rgba(183,148,255,.1); border-color:rgba(183,148,255,.25); color: #c4b0ff; }
+    .flow-arrow { color: var(--muted); font-size: 1.1rem; }
+    .data-table { width:100%; border-collapse:collapse; margin: 10px 0; font-size:.87rem; }
+    .data-table th {
+      text-align:left; padding:9px 12px;
+      background: var(--panel-2); color: var(--accent);
+      border-bottom: 1px solid var(--line); font-size:.8rem; letter-spacing:.04em;
+    }
+    .data-table td { padding: 8px 12px; border-bottom: 1px solid rgba(45,58,107,.5); }
+    .data-table tr:last-child td { border-bottom: none; }
+    .week-tag {
+      display: inline-flex; padding: 3px 10px; border-radius: 999px;
+      font-size: .75rem; font-weight: 700; margin: 0 4px 4px 0;
+    }
+    .week-tag.w2 { background:rgba(122,162,255,.15); color:var(--accent); border:1px solid rgba(122,162,255,.3); }
+    .week-tag.w3 { background:rgba(154,230,180,.12); color:var(--accent-2); border:1px solid rgba(154,230,180,.25); }
+    .week-tag.w4 { background:rgba(246,173,85,.1); color:var(--accent-3); border:1px solid rgba(246,173,85,.25); }
+    .question-card {
+      border: 1px solid var(--line); background: rgba(18,25,51,.86);
+      border-radius: 20px; padding: 22px;
+      box-shadow: var(--shadow); margin-bottom: 16px;
+    }
+    .question-header {
+      display:flex; justify-content: space-between;
+      gap: 14px; align-items: start; margin-bottom: 10px;
+    }
+    .q-badge {
+      display:inline-flex; padding: 5px 10px; border-radius: 999px;
+      font-size:.8rem; font-weight: 700; margin-bottom: 8px; border:1px solid;
+    }
+    .q-badge.reflection { background:rgba(122,162,255,.12); color:var(--accent); border-color:rgba(122,162,255,.25); }
+    .q-badge.code { background:rgba(246,173,85,.1); color:var(--accent-3); border-color:rgba(246,173,85,.25); }
+    .q-badge.overall { background:rgba(154,230,180,.12); color:var(--accent-2); border-color:rgba(154,230,180,.25); }
+    .question-card h2 { margin:0; font-size:1.15rem; line-height:1.35; }
+    .question-card h4 { margin: 14px 0 6px; color: #d7e2ff; font-size:.92rem; }
+    .question-prompt {
+      color: #dbe3ff; background: rgba(255,255,255,.03);
+      border: 1px solid rgba(255,255,255,.06); border-radius: 13px;
+      padding: 13px 15px; line-height: 1.65; margin-bottom: 13px;
+      font-style: italic; font-size: .93rem;
+    }
+    .question-card p { line-height: 1.72; color: var(--text); margin: 8px 0; font-size: .93rem; }
+    .question-card ul { padding-left: 1.3em; margin: 6px 0; }
+    .question-card ul li { margin-bottom: 5px; line-height: 1.6; font-size: .92rem; }
+    .muted { color: var(--muted); }
+    .tabs { display:flex; flex-wrap:wrap; gap: 7px; margin-bottom: 12px; }
+    .tab, .collapse-btn {
+      background: transparent; color: var(--text);
+      border:1px solid var(--line); border-radius: 9px;
+      padding: 8px 13px; cursor:pointer; font: inherit; font-size: .82rem;
+    }
+    .tab.active { border-color: var(--accent); background: rgba(122,162,255,.14); }
+    .tab:hover, .collapse-btn:hover { border-color: var(--accent); }
+    .tab-panel { display:none; }
+    .tab-panel.active { display:block; }
+    .hidden { display:none !important; }
+    code {
+      background: rgba(122,162,255,.1); border: 1px solid rgba(122,162,255,.2);
+      border-radius: 5px; padding: 2px 6px;
+      font-family: 'Consolas','Fira Code',monospace; font-size: .85em; color: #b8d0ff;
+    }
+    pre {
+      background: #0d1428; border: 1px solid var(--line);
+      border-radius: 11px; padding: 15px; overflow-x: auto;
+      font-family: 'Consolas','Fira Code',monospace;
+      font-size: .82rem; line-height: 1.65; color: #b8d0ff; margin: 10px 0;
+    }
+    .tip-box {
+      background: rgba(154,230,180,.07); border: 1px solid rgba(154,230,180,.2);
+      border-radius: 11px; padding: 12px 15px; margin: 10px 0;
+    }
+    .tip-box strong { color: var(--accent-2); }
+    .warn-box {
+      background: rgba(246,173,85,.07); border: 1px solid rgba(246,173,85,.2);
+      border-radius: 11px; padding: 12px 15px; margin: 10px 0;
+    }
+    .warn-box strong { color: var(--accent-3); }
+    .danger-box {
+      background: rgba(252,129,129,.06); border: 1px solid rgba(252,129,129,.2);
+      border-radius: 11px; padding: 12px 15px; margin: 10px 0;
+    }
+    .danger-box strong { color: var(--accent-4); }
+    .footer-note { text-align:center; color: var(--muted); margin-top: 34px; font-size:.85rem; }
+    @media (max-width:900px) {
+      .layout { grid-template-columns: 1fr; }
+      .sidebar { position:static; height:auto; border-right:none; border-bottom:1px solid var(--line); }
+    }
+    .kmap-grid { display:grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap:12px; margin:10px 0; }
+    .kmap-card {
+      border-radius:13px; padding:14px 16px; border:1px solid;
+    }
+    .kmap-card.w2 { background:rgba(122,162,255,.06); border-color:rgba(122,162,255,.2); }
+    .kmap-card.w3 { background:rgba(154,230,180,.05); border-color:rgba(154,230,180,.18); }
+    .kmap-card.w4 { background:rgba(246,173,85,.05); border-color:rgba(246,173,85,.18); }
+    .kmap-card h4 { margin:0 0 8px; font-size:.88rem; }
+    .kmap-card.w2 h4 { color:var(--accent); }
+    .kmap-card.w3 h4 { color:var(--accent-2); }
+    .kmap-card.w4 h4 { color:var(--accent-3); }
+    .kmap-card ul { padding-left:1.2em; margin:0; }
+    .kmap-card ul li { font-size:.82rem; line-height:1.5; margin-bottom:3px; color:var(--muted); }
+    .screen-pills { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0; }
+    .screen-pill {
+      padding:6px 13px; border-radius:999px; font-size:.82rem; font-weight:600;
+      border:1px solid rgba(122,162,255,.3); background:rgba(122,162,255,.1); color:var(--accent);
+    }
+    /* Chinese specific styling */
+    .zh-section { background: rgba(154,230,180,.04); border-radius: 10px; padding: 14px 16px; margin: 8px 0; }
+    .zh-section h5 { margin: 0 0 8px; color: var(--accent-2); font-size: .88rem; }
+    .zh-section p { margin: 4px 0; font-size: .9rem; line-height: 1.7; }
+    .zh-section ul { padding-left: 1.2em; margin: 4px 0; }
+    .zh-section ul li { font-size: .88rem; line-height: 1.6; margin-bottom: 4px; }
+    .key-point {
+      background: rgba(122,162,255,.08); border-left: 3px solid var(--accent);
+      padding: 10px 14px; border-radius: 0 9px 9px 0; margin: 8px 0;
+      font-size: .9rem; line-height: 1.65;
+    }
+    .followup-box {
+      background: rgba(246,173,85,.06); border: 1px solid rgba(246,173,85,.15);
+      border-radius: 10px; padding: 12px 15px; margin: 10px 0;
+    }
+    .followup-box strong { color: var(--accent-3); font-size: .82rem; }
+    .followup-box p { margin: 4px 0; font-size: .88rem; }
+  </style>
+</head>
+<body>
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="brand">
+      <h1>🏥 MedTrack 完整面试指南</h1>
+      <p>Haixin Yue · 35737735<br>FIT2081 A1 — Week 6 Interview</p>
+    </div>
+    <input id="searchBox" class="search" type="search" placeholder="搜索主题、代码、关键词…" />
+    <div class="toolbar">
+      <button id="expandAll">全部展开</button>
+      <button id="collapseAll">全部收起</button>
+    </div>
+
+    <div class="nav-section-label">📖 项目讲解</div>
+    <details class="nav-group" open>
+      <summary>🗺 完整项目讲解</summary>
+      <div class="nav-links">
+        <a href="#wt-overview" class="nav-question">总览 — MedTrack 是什么</a>
+        <a href="#wt-flow" class="nav-question">App 流程 &amp; 导航</a>
+        <a href="#wt-data" class="nav-question">数据架构</a>
+        <a href="#wt-main" class="nav-question">MainActivity — 导航中枢</a>
+        <a href="#wt-welcome" class="nav-question">WelcomeScreen</a>
+        <a href="#wt-login" class="nav-question">LoginScreen &amp; CSV 解析</a>
+        <a href="#wt-signup" class="nav-question">SignUpScreen &amp; 患者 ID 生成</a>
+        <a href="#wt-home" class="nav-question">HomeScreen &amp; 双来源合并</a>
+        <a href="#wt-addmed" class="nav-question">AddMedicationScreen</a>
+        <a href="#wt-symptoms" class="nav-question">SymptomsScreen &amp; HD3</a>
+        <a href="#wt-hd" class="nav-question">HD Extensions 总结</a>
+        <a href="#wt-knowledgemap" class="nav-question">Week 2/3/4 知识点地图</a>
+      </div>
+    </details>
+
+    <div class="nav-section-label">❓ 15题面试问答</div>
+    <details class="nav-group">
+      <summary>Category 1 — Reflection</summary>
+      <div class="nav-links">
+        <a href="#q1" class="nav-question">Q1 · Project Choices</a>
+        <a href="#q2" class="nav-question">Q2 · Overcoming Challenges</a>
+        <a href="#q3" class="nav-question">Q3 · Lessons Learned</a>
+        <a href="#q4" class="nav-question">Q4 · Adaptation &amp; Improvement</a>
+        <a href="#q5" class="nav-question">Q5 · Future Considerations</a>
+      </div>
+    </details>
+    <details class="nav-group">
+      <summary>Category 2 — Code Understanding</summary>
+      <div class="nav-links">
+        <a href="#q6" class="nav-question">Q6 · Code Architecture</a>
+        <a href="#q7" class="nav-question">Q7 · Error Handling</a>
+        <a href="#q8" class="nav-question">Q8 · Design Trade-offs</a>
+        <a href="#q9" class="nav-question">Q9 · Complex Sections</a>
+        <a href="#q10" class="nav-question">Q10 · Refactoring Opportunities</a>
+      </div>
+    </details>
+    <details class="nav-group">
+      <summary>Category 3 — Interview Overall</summary>
+      <div class="nav-links">
+        <a href="#q11" class="nav-question">Q11 · Project Summary</a>
+        <a href="#q12" class="nav-question">Q12 · Communication Clarity</a>
+        <a href="#q13" class="nav-question">Q13 · Strengths &amp; Improvements</a>
+        <a href="#q14" class="nav-question">Q14 · Adaptability</a>
+        <a href="#q15" class="nav-question">Q15 · Future Application</a>
+      </div>
+    </details>
+
+    <div class="nav-section-label">🧠 补强部分</div>
+    <details class="nav-group">
+      <summary>Part 3 — 额外高分准备</summary>
+      <div class="nav-links">
+        <a href="#pt4-design" class="nav-question">按功能讲我是怎么想到这样做的</a>
+        <a href="#pt5-script" class="nav-question">完整口头讲稿</a>
+        <a href="#pt7-risk" class="nav-question">最容易被问住的地方</a>
+        <a href="#pt8-why" class="nav-question">老师可能追问的为什么</a>
+        <a href="#pt9-memo" class="nav-question">面试前10分钟背诵提纲</a>
+      </div>
+    </details>
+
+  </aside>
+
+  <!-- MAIN -->
+  <main>
+    <div class="hero">
+      <h2>🏥 MedTrack — 面试完整指南 v2（全中文解析版）</h2>
+      <p>这份指南包含两个部分：Part 1 是按文件逐一讲解整份作业，Part 2 是15道面试题的完整问答。所有<strong>中文解析</strong>都是深度版，包含"为什么这样做"、"老师可能怎么追问"、"对应课程哪一周"。英文答案是你面试时直接说出口的版本。</p>
+      <div class="stats">
+        <div class="stat"><strong>6</strong><span>个 Screen</span></div>
+        <div class="stat"><strong>3</strong><span>个 CSV 文件</span></div>
+        <div class="stat"><strong>4</strong><span>HD Extensions</span></div>
+        <div class="stat"><strong>2</strong><span>数据来源</span></div>
+        <div class="stat"><strong>15</strong><span>道面试题</span></div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════
+         PART 1: PROJECT WALKTHROUGH
+    ═══════════════════════════════════════════════════ -->
+    <div class="section-divider"><h3>📖 Part 1 — 项目完整讲解</h3></div>
+
+    <!-- OVERVIEW -->
+    <div class="walk-card" id="wt-overview">
+      <div class="wc-header">
+        <div class="wc-icon blue">🏥</div>
+        <div>
+          <p class="wc-title" style="margin:0;font-size:1.1rem;font-weight:700;">MedTrack 总览 — 这个 App 是做什么的</p>
+          <p class="wc-subtitle"><span class="week-tag w2">Week 2</span><span class="week-tag w3">Week 3</span><span class="week-tag w4">Week 4</span></p>
+        </div>
+      </div>
+      <p>MedTrack 是一个帮助病人自我管理药物和症状的 Android App，用 Kotlin + Jetpack Compose 开发。</p>
+      <h4>主要功能</h4>
+      <ul>
+        <li>登录 / 注册（支持 CSV 预设用户 + 新注册用户）</li>
+        <li>首页显示今日药物清单，可打勾标记已服用</li>
+        <li>添加新药物，带完整表单验证</li>
+        <li>记录症状，查看历史症状记录</li>
+        <li>Session 持久化：关掉 App 重开不需要重新登录</li>
+      </ul>
+      <div class="screen-pills">
+        <span class="screen-pill">WelcomeScreen</span>
+        <span class="screen-pill">LoginScreen</span>
+        <span class="screen-pill">SignUpScreen</span>
+        <span class="screen-pill">HomeScreen</span>
+        <span class="screen-pill">AddMedicationScreen</span>
+        <span class="screen-pill">SymptomsScreen</span>
+      </div>
+    </div>
+
+    <!-- FLOW -->
+    <div class="walk-card" id="wt-flow">
+      <div class="wc-header">
+        <div class="wc-icon amber">🗺</div>
+        <div>
+          <p class="wc-title" style="margin:0;font-size:1.1rem;font-weight:700;">App 使用流程</p>
+          <p class="wc-subtitle">用户的完整操作路径</p>
+        </div>
+      </div>
+      <div class="flow-wrap">
+        <span class="flow-box welcome">WelcomeScreen</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-box auth">LoginScreen</span>
+        <span class="flow-arrow">/</span>
+        <span class="flow-box auth">SignUpScreen</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-box home">HomeScreen</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-box sub">AddMedicationScreen</span>
+        <span class="flow-arrow">/</span>
+        <span class="flow-box sub">SymptomsScreen</span>
+      </div>
+      <p>导航用 <code>MainActivity</code> 里的 <code>currentScreen</code> 字符串变量控制，<code>when</code> 块决定渲染哪个 Screen。每个 Screen 接收 lambda 回调来触发页面切换，而不是依赖 NavController。</p>
+    </div>
+
+    <!-- DATA ARCHITECTURE -->
+    <div class="walk-card" id="wt-data">
+      <div class="wc-header">
+        <div class="wc-icon green">🗄</div>
+        <div>
+          <p class="wc-title" style="margin:0;font-size:1.1rem;font-weight:700;">数据架构 — 两个来源，各司其职</p>
+          <p class="wc-subtitle"><span class="week-tag w4">Week 4</span> SharedPreferences · CSV · Gson</p>
+        </div>
+      </div>
+      <table class="data-table">
+        <thead><tr><th>数据来源</th><th>存什么</th><th>读还是写</th><th>用在哪里</th></tr></thead>
+        <tbody>
+          <tr><td><strong>patients.csv</strong></td><td>预设病人账号（ID、手机号、名字、密码）</td><td>只读</td><td>LoginScreen 验证，HomeScreen 显示名字</td></tr>
+          <tr><td><strong>medications.csv</strong></td><td>预设病人的药物</td><td>只读</td><td>HomeScreen 显示药物列表</td></tr>
+          <tr><td><strong>symptoms.csv</strong></td><td>预设病人的历史症状</td><td>只读</td><td>SymptomsScreen 历史记录</td></tr>
+          <tr><td><strong>SharedPreferences</strong></td><td>新用户列表、新添加的药物、当前登录的 patientId</td><td>读 + 写</td><td>SignUp、AddMedication、Login、MainActivity</td></tr>
+        </tbody>
+      </table>
+      <p>CSV 文件放在 <code>assets/</code> 目录，App 只能读不能写（打包进 APK 后是只读的）。所有用户产生的新数据都通过 Gson 序列化为 JSON 字符串，存入 SharedPreferences。</p>
+    </div>
+
+    <!-- MAINACTIVITY -->
+    <div class="walk-card" id="wt-main">
+      <div class="wc-header">
+        <div class="wc-icon blue">📱</div>
+        <div>
+          <p class="wc-title" style="margin:0;font-size:1.1rem;font-weight:700;">MainActivity.kt — 整个 App 的导航中枢</p>
+          <p class="wc-subtitle"><span class="week-tag w3">Week 3</span> remember · mutableStateOf · Lambda 导航</p>
+        </div>
+      </div>
+      <p>MainActivity 是整个 App 唯一的 Activity，里面通过 <code>setContent</code> 承载完整的 Compose UI 树。它做三件事：</p>
+      <ul>
+        <li><strong>HD4 — Session 检查：</strong>读 SharedPreferences 的 <code>logged_in_patient_id</code>，决定初始页面是 "welcome" 还是 "home"</li>
+        <li><strong>导航状态：</strong><code>var currentScreen by remember { mutableStateOf(...) }</code> 保存当前页面名称</li>
+        <li><strong>页面路由：</strong><code>when(currentScreen)</code> 映射字符串到对应 Composable，每个 Composable 接收 lambda 来改变 currentScreen</li>
+      </ul>
+      <pre>val loggedInUser = sharedPref.getString("logged_in_patient_id", "")
+
+var currentScreen by remember {
+    mutableStateOf(if (loggedInUser.isNullOrEmpty()) "welcome" else "home")
+}
+
+when (currentScreen) {
+    "welcome" -> WelcomeScreen(
+        onLoginClick = { currentScreen = "login" },
+        onSignUpClick = { currentScreen = "signup" }
+    )
+    "home" -> HomeScreen(
+        onLogoutClick = {
+            sharedPref.edit().remove("logged_in_patient_id").apply()
+            currentScreen = "welcome"
+        }
+        // ...
+    )
+    // ...
+}</pre>
+      <p>登出逻辑：先从 SharedPreferences 删除 <code>logged_in_patient_id</code>，再把 currentScreen 设回 "welcome"，这样用户就必须重新登录才能进 Home（HD4 的 logout 部分）。</p>
+    </div>
+
+    <!-- WELCOMESCREEN -->
+    <div class="walk-card" id="wt-welcome">
+      <div class="wc-header">
+        <div class="wc-icon amber">👋</div>
+        <div>
+          <p class="wc-title" style="margin:0;font-size:1.1rem;font-weight:700;">WelcomeScreen.kt — 入口展示页</p>
+          <p class="wc-subtitle"><span class="week-tag w2">Week 2</span> Column · Box · Button · Modifier</p>
+        </div>
+      </div>
+      <p>WelcomeScreen 是用户打开 App 第一眼看到的页面（如果没有 session）。它的职责是展示 App 信息、提供 Login/SignUp 入口、链接到 Monash Health Clinic 网站。</p>
+      <h4>关键实现细节</h4>
+      <ul>
+        <li><strong>Banner：</strong>用 <code>Box + background + clip(RoundedCornerShape)</code> 做了一个圆角蓝色 banner，里面放 Text 显示 "MedTrack"，这是课上学过的基础布局组合</li>
+        <li><strong>外部链接按钮：</strong>用 <code>Intent(Intent.ACTION_VIEW, Uri.parse(...))</code> + <code>context.startActivity()</code> 打开浏览器，这是 Android 基础的 intent 用法</li>
+        <li><strong>学生信息展示：</strong>底部显示 Haixin Yue + 35737735，符合 spec 要求</li>
+        <li><strong>Lambda 回调导航：</strong>点 Login 调用 <code>onLoginClick()</code>，不知道外面的导航逻辑是什么——Screen 只负责 UI，导航逻辑在 MainActivity</li>
+      </ul>
+    </div>
+
+    <!-- LOGINSCREEN -->
+    <div class="walk-card" id="wt-login">
+      <div class="wc-header">
+        <div class="wc-icon green">🔐</div>
+        <div>
+          <p class="wc-title" style="margin:0;font-size:1.1rem;font-weight:700;">LoginScreen.kt — 登录验证 + CSV 解析</p>
+          <p class="wc-subtitle"><span class="week-tag w3">Week 3</span><span class="week-tag w4">Week 4</span> remember · CSV 解析 · SharedPreferences</p>
+        </div>
+      </div>
+      <p>LoginScreen 实现了双来源登录验证：先查 CSV 里的预设用户，再查 SharedPreferences 里注册的新用户。同时，CSV 解析工具函数 <code>readPatients</code> 和 <code>readMedications</code> 也定义在这个文件里（可被其他 Screen 调用）。</p>
+      <h4>CSV 解析原理（Week 4）</h4>
+      <pre>fun readPatients(context: Context): List&lt;List&lt;String&gt;&gt; {
+    val patients = mutableListOf&lt;List&lt;String&gt;&gt;()
+    context.assets.open("patients.csv").bufferedReader().useLines { lines ->
+        lines.drop(1).forEach { line ->          // drop(1) 跳过标题行
+            val row = line.split(",")            // 按逗号分割
+            patients.add(row)
+        }
+    }
+    return patients
+}</pre>
+      <p>返回值是 <code>List&lt;List&lt;String&gt;&gt;</code>，外层列表每个元素是一行，内层列表是该行的各个列。访问 <code>row[0]</code> 是 patientId，<code>row[1]</code> 是手机号，<code>row[2]</code> 是名字，<code>row[3]</code> 是密码。</p>
+      <h4>登录逻辑三段 if-else</h4>
+      <pre>val csvPatient = csvPatients.find { it[1] == username }  // 查 CSV
+val spUser = spUsers.find { it.phone == username }          // 查 SP
+
+if (csvPatient == null && spUser == null) {
+    errorMessage = "No account found with this phone number"
+} else if (csvPatient != null) {
+    if (csvPatient[3] != password) { errorMessage = "Incorrect password" }
+    else { /* 保存 patientId 到 SP，跳转 Home */ }
+} else if (spUser != null) {
+    if (spUser.pass != password) { errorMessage = "Incorrect password" }
+    else { /* 保存 patientId 到 SP，跳转 Home */ }
+}</pre>
+      <p>登录成功后，把当前用户的 patientId 写入 SharedPreferences（key: <code>logged_in_patient_id</code>），这就是 HD4 session 持久化的核心。</p>
+    </div>
+
+    <!-- SIGNUPSCREEN -->
+    <div class="walk-card" id="wt-signup">
+      <div class="wc-header">
+        <div class="wc-icon purple">📝</div>
+        <div>
+          <p class="wc-title" style="margin:0;font-size:1.1rem;font-weight:700;">SignUpScreen.kt — 注册验证 + HD2 患者 ID 生成</p>
+          <p class="wc-subtitle"><span class="week-tag w3">Week 3</span><span class="week-tag w4">Week 4</span> 表单验证 · Gson · ID 生成算法</p>
+        </div>
+      </div>
+      <p>SignUpScreen 的核心职责：验证四个字段，生成唯一 patientId，把新用户存入 SharedPreferences。</p>
+      <h4>表单验证规则</h4>
+      <ul>
+        <li><strong>Full Name：</strong>不能为空</li>
+        <li><strong>Phone：</strong>必须10位、以 "04" 开头、全是数字，且不能在 CSV 或 SP 里重复</li>
+        <li><strong>Password：</strong>至少8位，包含至少一个字母和一个数字</li>
+        <li><strong>Confirm Password：</strong>必须与 Password 完全一致</li>
+      </ul>
+      <h4>HD2 — 患者 ID 生成算法</h4>
+      <pre>val csvIds = readPatients(context).map { it[0] }  // 所有 CSV 里的 ID
+val spIds = userList.map { it.patientId }            // 所有 SP 里的 ID
+val allIds = csvIds + spIds
+
+var maxIdNum = 1000
+for (id in allIds) {
+    if (id.startsWith("P")) {
+        val num = id.substring(1).toIntOrNull()
+        if (num != null && num > maxIdNum) { maxIdNum = num }
+    }
+}
+val newId = "P" + (maxIdNum + 1).toString()   // e.g. "P1005"</pre>
+      <p>这个算法扫描 CSV + SP 里所有已存在的 patientId，找到数字部分的最大值，+1 生成新 ID。保证新 ID 永远不与现有 ID 冲突。</p>
+    </div>
+
+    <!-- HOMESCREEN -->
+    <div class="walk-card" id="wt-home">
+      <div class="wc-header">
+        <div class="wc-icon amber">🏠</div>
+        <div>
+          <p class="wc-title" style="margin:0;font-size:1.1rem;font-weight:700;">HomeScreen.kt — 首页 &amp; HD1 双来源合并</p>
+          <p class="wc-subtitle"><span class="week-tag w3">Week 3</span><span class="week-tag w4">Week 4</span> Gson · filter · map · mutableStateListOf</p>
+        </div>
+      </div>
+      <p>HomeScreen 是登录后的核心页面，显示今日药物清单 + 导航按钮。最关键的实现是 HD1：把 CSV 药物和 SP 药物合并成一个统一列表。</p>
+      <h4>患者名字查找（双来源）</h4>
+      <p>先在 CSV 里按 patientId 查名字；如果找不到（是新注册用户），再去 SP 的 users 列表里找。</p>
+      <h4>HD1 — 双来源药物合并</h4>
+      <ul>
+        <li>CSV 药物类型是 <code>List&lt;List&lt;String&gt;&gt;</code></li>
+        <li>SP 药物类型是 <code>List&lt;MedicationItem&gt;</code>（data class）</li>
+        <li>为了能在同一个 UI 循环里渲染，需要把 SP 的药物 <strong>map 成相同格式</strong>（<code>List&lt;String&gt;</code>），然后用 <code>+</code> 合并</li>
+      </ul>
+      <pre>val spMedications = spMedicationsRaw
+    .filter { it.patientId == patientId }
+    .map { med ->
+        listOf(med.patientId, med.name, med.dosage,
+               med.frequency, med.time, med.type, med.notes)
+    }
+
+val patientMedications = csvMedications + spMedications</pre>
+      <h4>Taken 勾选状态（内存状态）</h4>
+      <pre>val takenStates = remember(patientMedications.size) {
+    mutableStateListOf&lt;Boolean&gt;().apply {
+        repeat(patientMedications.size) { add(false) }
+    }
+}</pre>
+      <p><code>mutableStateListOf</code> 是 Compose 可响应的列表，修改某个 index 的值会触发 recomposition，让勾选即时生效（strikethrough 文字、计数更新）。注意这只是内存状态，切换 Screen 后会重置——spec 明确允许这样。</p>
+    </div>
+
+    <!-- ADDMEDICATION -->
+    <div class="walk-card" id="wt-addmed">
+      <div class="wc-header">
+        <div class="wc-icon purple">💊</div>
+        <div>
+          <p class="wc-title" style="margin:0;font-size:1.1rem;font-weight:700;">AddMedicationScreen.kt — 表单、Regex 验证 &amp; SP 持久化</p>
+          <p class="wc-subtitle"><span class="week-tag w3">Week 3</span><span class="week-tag w4">Week 4</span> Validation · Gson · TimePicker · Dropdown</p>
+        </div>
+      </div>
+      <p>AddMedicationScreen 是一个可滚动的表单，包含七个字段。保存时先验证，验证通过再写入 SharedPreferences。</p>
+      <h4>Dosage Regex 验证（重点，Band B）</h4>
+      <pre>val dosageRegex = Regex("^\\d+(\\.\\d+)?\\s*(mg|ml|g)$", RegexOption.IGNORE_CASE)
+
+// 验证逻辑：
+if (dosage.isBlank()) {
+    dosageError = "Dosage cannot be empty"
+    isValid = false
+} else if (!dosage.matches(dosageRegex)) {
+    dosageError = "Enter a valid dosage like 500mg or 10ml"
+    isValid = false
+}</pre>
+      <p>正则表达式解析：<code>^\d+</code>（一个或多个数字）<code>(\.\d+)?</code>（可选的小数部分）<code>\s*</code>（可选空格）<code>(mg|ml|g)$</code>（单位，不区分大小写）。匹配 "500mg"、"10.5ml"、"2 G" 等。</p>
+      <h4>Time Picker（TimePicker Dialog）</h4>
+      <p><code>time</code> 字段是 readOnly 的 OutlinedTextField，只能通过 <code>TimePickerDialog</code> 设置。用户点按钮，Dialog 弹出，选择后回调 <code>time = "$hourText:$minuteText"</code>，同时清除 timeError。</p>
+      <h4>保存到 SharedPreferences 的流程</h4>
+      <p>①读出现有 JSON → ②用 Gson 反序列化为 <code>MutableList&lt;MedicationItem&gt;</code> → ③加入新对象 → ④用 Gson 序列化回 JSON → ⑤写回 SP → ⑥Snackbar 提示 → ⑦延迟后 onBackClick() 返回 Home（Home 重新进入时会重读 SP，新药自动出现）。</p>
+    </div>
+
+    <!-- SYMPTOMS -->
+    <div class="walk-card" id="wt-symptoms">
+      <div class="wc-header">
+        <div class="wc-icon red">🩺</div>
+        <div>
+          <p class="wc-title" style="margin:0;font-size:1.1rem;font-weight:700;">SymptomsScreen.kt — 症状记录、历史 &amp; HD3 实时颜色反馈</p>
+          <p class="wc-subtitle"><span class="week-tag w3">Week 3</span><span class="week-tag w4">Week 4</span> Slider · DatePicker · mutableFloatStateOf · 条件颜色</p>
+        </div>
+      </div>
+      <p>SymptomsScreen 分两部分：上面是记录表单，下面是从 CSV 读取的历史症状列表。</p>
+      <h4>HD3 — 实时 Severity 颜色反馈</h4>
+      <pre>var severity by remember { mutableFloatStateOf(5f) }
+val severityInt = severity.toInt()
+
+val severityColor = when (severityInt) {
+    in 1..3 -> Color(0xFF4CAF50)  // 绿色 = Mild
+    in 4..6 -> Color(0xFFFFC107)  // 黄色 = Moderate
+    else    -> Color(0xFFF44336)  // 红色 = Severe
+}
+
+val severityLabel = when (severityInt) {
+    in 1..3 -> "Mild"
+    in 4..6 -> "Moderate"
+    else    -> "Severe"
+}
+
+Slider(
+    value = severity,
+    onValueChange = { severity = it },
+    valueRange = 1f..10f,
+    colors = SliderDefaults.colors(
+        thumbColor = severityColor,
+        activeTrackColor = severityColor
+    )
+)</pre>
+      <p>关键原理：<code>severityColor</code> 和 <code>severityLabel</code> 是在 Composable 函数体里直接计算的（不是单独的 state variable），所以每次 slider 拖动触发 recomposition，它们就自动重算。这是 Week 3 学到的：state 改变 → recomposition → 派生值跟着更新。</p>
+      <h4>历史记录 reversed()</h4>
+      <p><code>.reversed()</code> 让最新的症状出现在列表顶部（CSV 里越靠后越新）。这是 Week 4 学到的集合操作之一。</p>
+      <h4>关于 Symptoms 不持久化</h4>
+      <p>点 Save 会验证、显示 Snackbar，但新记录不写入 CSV 或 SP——这是 spec 明确规定的（A1 不需要，A2 再实现）。这不是 bug，是有意设计。</p>
+    </div>
+
+    <!-- HD SUMMARY -->
+    <div class="walk-card" id="wt-hd">
+      <div class="wc-header">
+        <div class="wc-icon blue">⭐</div>
+        <div>
+          <p class="wc-title" style="margin:0;font-size:1.1rem;font-weight:700;">HD Extensions 总结</p>
+          <p class="wc-subtitle">全部四个 Band C 扩展都已实现</p>
+        </div>
+      </div>
+      <table class="data-table">
+        <thead><tr><th>HD</th><th>功能</th><th>位置</th><th>核心技术</th></tr></thead>
+        <tbody>
+          <tr><td><strong>HD1</strong></td><td>双来源药物合并（CSV + SP）</td><td>HomeScreen.kt</td><td>map MedicationItem → List&lt;String&gt;，再 + 合并</td></tr>
+          <tr><td><strong>HD2</strong></td><td>健壮的患者 ID 生成</td><td>SignUpScreen.kt</td><td>扫描 CSV + SP 所有 ID，找最大数字 + 1</td></tr>
+          <tr><td><strong>HD3</strong></td><td>实时 Severity 颜色反馈</td><td>SymptomsScreen.kt</td><td>mutableFloatStateOf + when 派生颜色/标签</td></tr>
+          <tr><td><strong>HD4</strong></td><td>Session 持久化 + 登出</td><td>MainActivity.kt</td><td>启动时读 SP，登出时删 key 清 session</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- KNOWLEDGE MAP -->
+    <div class="walk-card" id="wt-knowledgemap">
+      <div class="wc-header">
+        <div class="wc-icon green">📚</div>
+        <div>
+          <p class="wc-title" style="margin:0;font-size:1.1rem;font-weight:700;">Week 2 / 3 / 4 知识点地图</p>
+          <p class="wc-subtitle">作业里每一个知识点都对应到课程哪一周</p>
+        </div>
+      </div>
+      <div class="kmap-grid">
+        <div class="kmap-card w2">
+          <h4>Week 2 — Compose 基础布局</h4>
+          <ul>
+            <li>Column / Row / Box 布局</li>
+            <li>Text / Button / OutlinedTextField</li>
+            <li>Modifier（fillMaxWidth、padding、height）</li>
+            <li>MaterialTheme 字体样式</li>
+            <li>verticalScroll + rememberScrollState</li>
+            <li>Card / Spacer</li>
+            <li><strong>对应：</strong>每个 Screen 的布局结构</li>
+          </ul>
+        </div>
+        <div class="kmap-card w3">
+          <h4>Week 3 — State 管理</h4>
+          <ul>
+            <li>remember { mutableStateOf() }</li>
+            <li>mutableFloatStateOf（Symptoms Slider）</li>
+            <li>mutableStateListOf（Taken 勾选）</li>
+            <li>by remember + var 委托</li>
+            <li>Lambda 回调跨 Composable 导航</li>
+            <li>if/when 条件渲染</li>
+            <li>SnackbarHost + rememberCoroutineScope</li>
+            <li><strong>对应：</strong>所有表单 Screen，MainActivity 导航</li>
+          </ul>
+        </div>
+        <div class="kmap-card w4">
+          <h4>Week 4 — 数据 &amp; 持久化</h4>
+          <ul>
+            <li>SharedPreferences 读写</li>
+            <li>Gson + TypeToken JSON 序列化</li>
+            <li>data class（User、MedicationItem）</li>
+            <li>assets CSV 解析</li>
+            <li>filter / map / find / reversed</li>
+            <li>TimePickerDialog / DatePickerDialog</li>
+            <li>ExposedDropdownMenuBox</li>
+            <li>Regex 验证</li>
+            <li><strong>对应：</strong>Login、SignUp、AddMed、Home、Symptoms</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════
+         PART 2: INTERVIEW Q&A
+    ═══════════════════════════════════════════════════ -->
+    <div class="section-divider"><h3>❓ Part 2 — 15 道面试题 完整问答</h3></div>
+
+    <!-- Q1 -->
+    <article class="question-card" id="q1" data-search="q1 project choices design implementation motivated decisions navigation sharedpreferences currentscreen">
+      <div class="question-header">
+        <div><div class="q-badge reflection">Q1 · Reflection</div><h2>Project Choices</h2></div>
+        <button class="collapse-btn" data-target="q1-body">收起</button>
+      </div>
+      <div class="question-prompt">"Can you explain the design and implementation choices you made in your project? What motivated these decisions?"</div>
+      <div class="question-body" id="q1-body">
+        <div class="tabs">
+          <button class="tab active" data-tab="en-q1">English Answer</button>
+          <button class="tab" data-tab="zh-q1">中文解析</button>
+          <button class="tab" data-tab="ide-q1">IDE Prep</button>
+        </div>
+        <section class="tab-panel active" id="en-q1">
+          <p>The biggest design choice I made was using a <code>currentScreen</code> string variable in MainActivity for navigation, rather than NavController. For six screens with simple linear flows, a <code>when</code> block that maps strings to composables is readable and easy to trace — you can always see all your routes in one place. Each screen receives lambda callbacks like <code>onLoginSuccess = { currentScreen = "home" }</code>, which keeps navigation logic centralised.</p>
+          <p>For data storage, I used SharedPreferences with Gson. The spec explicitly required SharedPreferences, and Gson is the natural companion for storing structured objects — it serialises a <code>User</code> or <code>MedicationItem</code> to a JSON string with one call, and deserialises it back just as easily.</p>
+          <p>I also completed all four HD extensions. HD1 (dual-source medication merge) was about converting two different data types into a common format so the Home screen could render them identically. HD4 (session persistence) checks SharedPreferences on launch to skip Login if the user is already authenticated.</p>
+        </section>
+        <section class="tab-panel" id="zh-q1">
+          <div class="zh-section">
+            <h5>🎯 这题考什么</h5>
+            <p>考你有没有<strong>主动思考过设计决策</strong>，而不是照抄 lab 或者随便写。每个决定都要有理由，不能说"因为不会 NavController 所以没用"。</p>
+          </div>
+          <div class="key-point">
+            <strong>核心答题结构：</strong>说了什么决定 → 为什么做这个决定 → 它带来了什么好处
+          </div>
+          <div class="zh-section">
+            <h5>📌 三个关键决定要讲清楚</h5>
+            <ul>
+              <li><strong>导航用 currentScreen + when：</strong>6个页面，线性流，不需要 back stack，<code>when</code> 块把所有路由集中在一个地方，可读性高。每个 Screen 通过 lambda 回调触发导航，Screen 本身不知道外部导航逻辑，职责清晰。</li>
+              <li><strong>SharedPreferences + Gson：</strong>Spec 明确要求用 SP，Gson 序列化对象到 JSON 字符串只要一行 <code>gson.toJson(obj)</code>，反序列化也只要 <code>gson.fromJson(json, type)</code>，这是 Week 4 学的内容，用起来自然。</li>
+              <li><strong>HD extensions：</strong>主动提 HD1 和 HD4，显示你做了超出基本要求的工作。HD1 是把两种不同数据类型统一格式再合并；HD4 是启动时检查 SP 决定初始页面。</li>
+            </ul>
+          </div>
+          <div class="followup-box">
+            <strong>⚠️ 老师可能追问：</strong>
+            <p>"为什么不用 NavController？" → 说"对这个规模够用，所有路由在一个 when 块里更直观，NavController 更适合有复杂 back stack 需求的 App"</p>
+          </div>
+          <div class="warn-box"><strong>不要说的话：</strong>"因为我不熟悉 NavController 所以没用" / "NavController 太复杂了"。要说的是：当前方案对这个 App 规模是合理且足够的选择。</div>
+        </section>
+        <section class="tab-panel" id="ide-q1">
+          <div class="tip-box"><strong>打开：</strong> <code>MainActivity.kt</code> — 指着 when(currentScreen) 结构</div>
+          <pre>var currentScreen by remember {
+    mutableStateOf(if (loggedInUser.isNullOrEmpty()) "welcome" else "home")
+}
+when (currentScreen) {
+    "welcome" -> WelcomeScreen(onLoginClick = { currentScreen = "login" }, ...)
+    "home"    -> HomeScreen(onLogoutClick = {
+        sharedPref.edit().remove("logged_in_patient_id").apply()
+        currentScreen = "welcome"
+    })
+    ...
+}</pre>
+          <p>"这里就是所有导航的中枢，你可以看到每个页面对应的跳转逻辑都在这里。"</p>
+        </section>
+      </div>
+    </article>
+
+    <!-- Q2 -->
+    <article class="question-card" id="q2" data-search="q2 challenges overcome dual source merge data format list string medicationitem regex dosage">
+      <div class="question-header">
+        <div><div class="q-badge reflection">Q2 · Reflection</div><h2>Overcoming Challenges</h2></div>
+        <button class="collapse-btn" data-target="q2-body">收起</button>
+      </div>
+      <div class="question-prompt">"What were the major challenges you encountered during the project, and how did you address or overcome them?"</div>
+      <div class="question-body" id="q2-body">
+        <div class="tabs">
+          <button class="tab active" data-tab="en-q2">English Answer</button>
+          <button class="tab" data-tab="zh-q2">中文解析</button>
+          <button class="tab" data-tab="ide-q2">IDE Prep</button>
+        </div>
+        <section class="tab-panel active" id="en-q2">
+          <p>The biggest challenge was the HD1 dual-source medication merge. The problem was that CSV medications come back as <code>List&lt;List&lt;String&gt;&gt;</code> while SharedPreferences medications are <code>List&lt;MedicationItem&gt;</code> — a proper data class. To render both in the same UI loop, I had to normalise the format first.</p>
+          <p>I solved it by mapping each <code>MedicationItem</code> to a <code>List&lt;String&gt;</code> in the same column order as the CSV — <code>listOf(med.patientId, med.name, med.dosage, ...)</code>. After that, <code>csvMedications + spMedications</code> produces a single unified list the UI can iterate with <code>forEachIndexed</code>.</p>
+          <p>The second challenge was the dosage regex. I needed to handle integers like "500mg", decimals like "10.5ml", optional whitespace between number and unit, and case-insensitive units. The regex <code>^\d+(\.\d+)?\s*(mg|ml|g)$</code> with <code>IGNORE_CASE</code> covers all these cases.</p>
+        </section>
+        <section class="tab-panel" id="zh-q2">
+          <div class="zh-section">
+            <h5>🎯 这题考什么</h5>
+            <p>考你有没有真的遇到过问题、解决过问题，而不是按模板写代码。要讲具体的技术挑战，不要说"时间管理"或者"需求理解"这种虚的。</p>
+          </div>
+          <div class="zh-section">
+            <h5>📌 挑战 1：HD1 双来源数据格式不一致</h5>
+            <ul>
+              <li><strong>问题：</strong>CSV 药物是 <code>List&lt;List&lt;String&gt;&gt;</code>（字符串列表），SP 药物是 <code>List&lt;MedicationItem&gt;</code>（data class）。两种类型不能直接合并。</li>
+              <li><strong>解决方案：</strong>用 <code>.map { med -> listOf(med.patientId, med.name, ...) }</code> 把 MedicationItem 转换成 <code>List&lt;String&gt;</code>，列的顺序和 CSV 保持一致。</li>
+              <li><strong>结果：</strong><code>csvMedications + spMedications</code> 得到一个统一的 <code>List&lt;List&lt;String&gt;&gt;</code>，UI 里用 <code>forEachIndexed</code> 遍历，用 <code>med.getOrNull(1)</code> 取药名，完全一致。</li>
+              <li><strong>周期：</strong>这用到了 Week 4 学的 <code>.map</code> 集合操作</li>
+            </ul>
+          </div>
+          <div class="zh-section">
+            <h5>📌 挑战 2：Dosage Regex 覆盖所有合法格式</h5>
+            <ul>
+              <li><strong>问题：</strong>spec 要求 dosage 格式是"数字+单位"，但要兼容：整数（500mg）、小数（10.5ml）、数字和单位之间有空格（2 g）、单位大小写不敏感（MG / mg）</li>
+              <li><strong>解决：</strong><code>^\d+(\.\d+)?\s*(mg|ml|g)$</code> + <code>IGNORE_CASE</code></li>
+              <li><code>(\.\d+)?</code> 让小数部分可选，<code>\s*</code> 允许有空格，<code>IGNORE_CASE</code> 处理大小写</li>
+            </ul>
+          </div>
+          <div class="followup-box">
+            <strong>⚠️ 老师可能追问：</strong>
+            <p>"为什么 <code>(\.\d+)?</code> 有括号？" → 括号让这个组合成为可选部分，<code>?</code> 表示出现0次或1次</p>
+            <p>"如果用户输入 '500 mg'（有空格）能通过吗？" → 能，<code>\s*</code> 匹配0个或多个空格</p>
+          </div>
+        </section>
+        <section class="tab-panel" id="ide-q2">
+          <div class="tip-box"><strong>HomeScreen.kt</strong> — 找合并代码（约第50行）</div>
+          <pre>val spMedications = spMedicationsRaw.filter { it.patientId == patientId }
+    .map { med -> listOf(med.patientId, med.name, med.dosage,
+                         med.frequency, med.time, med.type, med.notes) }
+val patientMedications = csvMedications + spMedications</pre>
+          <div class="tip-box"><strong>AddMedicationScreen.kt</strong> — 找 dosageRegex（约第50行）</div>
+          <pre>val dosageRegex = Regex("^\\d+(\\.\\d+)?\\s*(mg|ml|g)$", RegexOption.IGNORE_CASE)</pre>
+        </section>
+      </div>
+    </article>
+
+    <!-- Q3 -->
+    <article class="question-card" id="q3" data-search="q3 lessons learned recomposition remember sharedpreferences spec symptom persistence">
+      <div class="question-header">
+        <div><div class="q-badge reflection">Q3 · Reflection</div><h2>Lessons Learned</h2></div>
+        <button class="collapse-btn" data-target="q3-body">收起</button>
+      </div>
+      <div class="question-prompt">"Reflect on the project journey — what key lessons did you learn and how have they influenced your approach to problem-solving?"</div>
+      <div class="question-body" id="q3-body">
+        <div class="tabs">
+          <button class="tab active" data-tab="en-q3">English Answer</button>
+          <button class="tab" data-tab="zh-q3">中文解析</button>
+          <button class="tab" data-tab="ide-q3">IDE Prep</button>
+        </div>
+        <section class="tab-panel active" id="en-q3">
+          <p>The first lesson was how Compose recomposition works in practice. When you navigate back to the Home screen, the composable re-enters and re-reads SharedPreferences — so the newly added medication automatically appears without any extra refresh logic. I deliberately relied on this: since <code>sharedPref.getString("medications", "[]")</code> is called directly in the composable body, it always reflects the latest data on each recomposition.</p>
+          <p>The second lesson was to read specs carefully before writing code. For the Symptoms screen, the spec explicitly says the form "validates and shows a success message but does not persist the entry." I almost started implementing persistence — catching that line saved me unnecessary work.</p>
+          <p>The third lesson was about data format consistency. The HD1 merge taught me that when two sources have different shapes, you need to normalise one before combining — you can't just concatenate different types.</p>
+        </section>
+        <section class="tab-panel" id="zh-q3">
+          <div class="zh-section">
+            <h5>🎯 这题考什么</h5>
+            <p>考你对技术原理的理解，以及你有没有从项目过程中真正学到东西。要讲具体的、技术层面的，不要说空话。</p>
+          </div>
+          <div class="zh-section">
+            <h5>📌 Lesson 1：Compose Recomposition 的实际作用</h5>
+            <ul>
+              <li>每次从 AddMedicationScreen 返回 Home，HomeScreen 这个 composable 函数会重新执行</li>
+              <li>因为 <code>sharedPref.getString("medications", "[]")</code> 直接写在 composable 函数体里（不是 remember 包裹的），所以每次 recompose 都会重读 SP</li>
+              <li>这就意味着新加的药物<strong>自动出现</strong>，不需要额外的 refresh 机制</li>
+              <li>对应 Week 3 学的：state 改变 → recomposition → UI 自动更新</li>
+            </ul>
+          </div>
+          <div class="zh-section">
+            <h5>📌 Lesson 2：读懂 Spec 再写代码</h5>
+            <ul>
+              <li>Symptoms 的 Save 按钮：验证通过 + Snackbar，但不持久化</li>
+              <li>Spec 明确写了这一点，A1 不需要持久化，A2 才做</li>
+              <li>如果没认真读 spec，可能会浪费时间去实现一个 A1 不需要的功能</li>
+            </ul>
+          </div>
+          <div class="zh-section">
+            <h5>📌 Lesson 3：数据格式一致性</h5>
+            <ul>
+              <li>HD1 的核心教训：两种不同类型不能直接 <code>+</code> 合并</li>
+              <li>解决方法是 <strong>normalize（标准化）</strong>：把 data class 转换成和 CSV 一样的 <code>List&lt;String&gt;</code> 格式</li>
+              <li>这是 Week 4 学的 <code>.map</code> 在实际项目里的典型用法</li>
+            </ul>
+          </div>
+          <div class="followup-box">
+            <strong>⚠️ 老师可能追问：</strong>
+            <p>"为什么不用 remember 包裹 sharedPref.getString？" → 因为用了 remember 的话只会读一次（初始化时），之后切换 Screen 回来不会重读，新加的药不会出现</p>
+          </div>
+        </section>
+        <section class="tab-panel" id="ide-q3">
+          <div class="tip-box"><strong>HomeScreen.kt</strong> — 指这一行说"每次进 composable 都重新读，不需要手动 refresh"</div>
+          <pre>val medsJson = sharedPref.getString("medications", "[]")  // 直接在函数体里，每次 recompose 都执行</pre>
+          <p>对比一下如果用了 remember 会怎样：</p>
+          <pre>// ❌ 不这样写——只在进入时读一次，新药不会出现
+val medsJson = remember { sharedPref.getString("medications", "[]") }</pre>
+        </section>
+      </div>
+    </article>
+
+    <!-- Q4 -->
+    <article class="question-card" id="q4" data-search="q4 adaptation improvement testing clear button error messages login edge cases">
+      <div class="question-header">
+        <div><div class="q-badge reflection">Q4 · Reflection</div><h2>Adaptation and Improvement</h2></div>
+        <button class="collapse-btn" data-target="q4-body">收起</button>
+      </div>
+      <div class="question-prompt">"How did feedback or testing results impact your design decisions, and what changes did you implement as a result?"</div>
+      <div class="question-body" id="q4-body">
+        <div class="tabs">
+          <button class="tab active" data-tab="en-q4">English Answer</button>
+          <button class="tab" data-tab="zh-q4">中文解析</button>
+          <button class="tab" data-tab="ide-q4">IDE Prep</button>
+        </div>
+        <section class="tab-panel active" id="en-q4">
+          <p>During testing I noticed that if a user started filling in the Add Medication form then navigated back without saving, the form kept the typed values. I added the Clear button to explicitly reset all fields and errors. I also made the Save button auto-navigate back to Home after a brief Snackbar delay, rather than staying on the form.</p>
+          <p>For login, I tested the two error conditions the spec requires: a phone number that exists but has a wrong password, and one that doesn't exist at all. This led me to split the error logic into distinct messages — "No account found with this phone number" versus "Incorrect password" — rather than a generic message.</p>
+          <p>When testing HD1, I logged in as P1001, added a new medication, returned to Home, and confirmed both the CSV medications and the new one appeared together. This caught an early bug where I was filtering SP medications incorrectly.</p>
+        </section>
+        <section class="tab-panel" id="zh-q4">
+          <div class="zh-section">
+            <h5>🎯 这题考什么</h5>
+            <p>考你有没有<strong>测试过自己的 App</strong>，而不是写完就交。要讲具体的测试场景和你因此做出的改动。</p>
+          </div>
+          <div class="zh-section">
+            <h5>📌 具体测试发现的三件事</h5>
+            <ul>
+              <li><strong>Add Medication 表单状态保留问题：</strong>填了一半然后点 Back，再进来表单还有之前的内容 → 加了 Clear 按钮，点一下重置所有字段和 error</li>
+              <li><strong>Login 错误消息要区分：</strong>手机号不存在 vs 密码错误 → spec 要求分开提示，测试两种边界条件后确认 if-else 逻辑正确</li>
+              <li><strong>HD1 测试流程：</strong>P1001 登录 → 看到 CSV 里的药 → Add Medication 加一个新药 → 返回 Home → 确认新药和 CSV 药都在列表里 → 发现了 filter 条件写错的 bug</li>
+            </ul>
+          </div>
+          <div class="key-point">
+            <strong>回答技巧：</strong>讲具体的测试账号、具体的操作步骤、具体发现了什么 bug、具体怎么修的。这样听起来是真的测试过，不是空话。
+          </div>
+          <div class="followup-box">
+            <strong>⚠️ 老师可能追问：</strong>
+            <p>"那个 filter bug 具体是什么？" → 最初可能没有按 patientId 过滤 SP 里的药，导致所有用户的药都显示在一起</p>
+          </div>
+        </section>
+        <section class="tab-panel" id="ide-q4">
+          <div class="tip-box"><strong>运行前：</strong> 启动 AVD Manager（Tools → Device Manager），Shift+F10 运行 App</div>
+          <p>现场演示测试场景：P1001 / 0412345678 / pass1234 登录 → 加 "Aspirin 100mg Once daily 08:00" → 回 Home 确认出现</p>
+          <div class="tip-box"><strong>AddMedicationScreen.kt</strong> — Clear 按钮</div>
+          <pre>Button(onClick = {
+    name = ""; dosage = ""; frequency = ""; time = ""; type = ""; notes = ""
+    nameError = ""; dosageError = ""; frequencyError = ""; timeError = ""
+}) { Text("Clear") }</pre>
+        </section>
+      </div>
+    </article>
+
+    <!-- Q5 -->
+    <article class="question-card" id="q5" data-search="q5 future considerations redo improve utils models navcontroller bounds checking">
+      <div class="question-header">
+        <div><div class="q-badge reflection">Q5 · Reflection</div><h2>Future Considerations</h2></div>
+        <button class="collapse-btn" data-target="q5-body">收起</button>
+      </div>
+      <div class="question-prompt">"If you could redo the project, what aspects would you change or improve upon, and why?"</div>
+      <div class="question-body" id="q5-body">
+        <div class="tabs">
+          <button class="tab active" data-tab="en-q5">English Answer</button>
+          <button class="tab" data-tab="zh-q5">中文解析</button>
+          <button class="tab" data-tab="ide-q5">IDE Prep</button>
+        </div>
+        <section class="tab-panel active" id="en-q5">
+          <p>The first thing I'd change is pulling the CSV utility functions out of <code>LoginScreen.kt</code>. Right now <code>readPatients</code> and <code>readMedications</code> are defined there even though <code>HomeScreen</code> and <code>SymptomsScreen</code> both call them. Moving them to a <code>Utils.kt</code> would make the project easier to navigate.</p>
+          <p>Similarly, the data classes <code>User</code> and <code>MedicationItem</code> are defined inside screen files but referenced across multiple screens. A <code>Models.kt</code> file would be cleaner.</p>
+          <p>I'd also add defensive bounds checking when parsing CSV rows. Currently, accessing <code>row[3]</code> on a malformed short row would throw an <code>ArrayIndexOutOfBoundsException</code>. A simple <code>if (row.size >= 4)</code> guard would prevent that.</p>
+          <p>Finally, for future assignments, I would use NavController instead of the string variable — not because the current approach doesn't work, but because NavController handles the back stack more explicitly.</p>
+        </section>
+        <section class="tab-panel" id="zh-q5">
+          <div class="zh-section">
+            <h5>🎯 这题考什么</h5>
+            <p>考你对自己代码的<strong>批判性认识</strong>。要讲具体的代码组织问题，不要说"我会写得更好看"。</p>
+          </div>
+          <div class="zh-section">
+            <h5>📌 四个具体的改进点（按优先级排）</h5>
+            <ul>
+              <li>
+                <strong>Priority 1 — Utils.kt：</strong>
+                <code>readPatients</code> 和 <code>readMedications</code> 现在定义在 <code>LoginScreen.kt</code> 里，但 <code>HomeScreen.kt</code> 和 <code>SymptomsScreen.kt</code> 都要调用。函数不属于任何一个 Screen，应该单独放在 <code>Utils.kt</code>。
+              </li>
+              <li>
+                <strong>Priority 2 — Models.kt：</strong>
+                <code>User</code> data class 在 <code>SignUpScreen.kt</code>，<code>MedicationItem</code> 在 <code>AddMedicationScreen.kt</code>，但两个都被其他文件引用。跨文件依赖，应该放在 <code>Models.kt</code>。
+              </li>
+              <li>
+                <strong>Priority 3 — CSV bounds checking：</strong>
+                <code>row[3]</code> 在 CSV 行列数不够时会崩溃（<code>ArrayIndexOutOfBoundsException</code>）。应该加 <code>if (row.size >= 4)</code> 防御性检查，或者用 <code>getOrNull(3)</code>。
+              </li>
+              <li>
+                <strong>Priority 4 — NavController（面向未来）：</strong>
+                对 A1 的规模，currentScreen 够用。但 NavController 有更明确的 back stack 管理，更适合更复杂的 App。A2 可以考虑换。
+              </li>
+            </ul>
+          </div>
+          <div class="warn-box"><strong>不要说：</strong>"不会 NavController 所以没用" → 要说："当前方案对 A1 规模合理，NavController 是合理的未来改进方向"</div>
+          <div class="followup-box">
+            <strong>⚠️ 老师可能追问：</strong>
+            <p>"你现在 <code>row[3]</code> 会不会真的崩溃？" → 用我们的 CSV 文件不会，因为所有行都是完整的。但防御性编程是好习惯，处理不规范数据时会有问题。</p>
+          </div>
+        </section>
+        <section class="tab-panel" id="ide-q5">
+          <div class="tip-box"><strong>LoginScreen.kt</strong> — 指 readPatients 和 readMedications 说"这两个应该在 Utils.kt 里"</div>
+          <div class="tip-box"><strong>SignUpScreen.kt</strong> — 指 data class User 说"这应该在 Models.kt 里，因为 LoginScreen 和 HomeScreen 也用它"</div>
+          <pre>// 现在 LoginScreen.kt 里有：
+fun readPatients(context: Context): List&lt;List&lt;String&gt;&gt; { ... }
+fun readMedications(context: Context): List&lt;List&lt;String&gt;&gt; { ... }
+// HomeScreen.kt 调用了 readPatients 和 readMedications
+// 这两个函数应该在单独的 Utils.kt 里</pre>
+        </section>
+      </div>
+    </article>
+
+    <!-- Q6 -->
+    <article class="question-card" id="q6" data-search="q6 code architecture structure critical mainactivity screens when block">
+      <div class="question-header">
+        <div><div class="q-badge code">Q6 · Code</div><h2>Code Architecture</h2></div>
+        <button class="collapse-btn" data-target="q6-body">收起</button>
+      </div>
+      <div class="question-prompt">"Can you walk me through the overall structure of your code? Which parts do you consider most critical to the project's success?"</div>
+      <div class="question-body" id="q6-body">
+        <div class="tabs">
+          <button class="tab active" data-tab="en-q6">English Answer</button>
+          <button class="tab" data-tab="zh-q6">中文解析</button>
+          <button class="tab" data-tab="ide-q6">IDE Prep</button>
+        </div>
+        <section class="tab-panel active" id="en-q6">
+          <p>The app has a single Activity — <code>MainActivity</code> — which hosts the entire Compose UI tree. A <code>currentScreen</code> state variable acts as the router. A <code>when</code> block maps each string to a composable, and each composable receives lambda callbacks for navigation.</p>
+          <p>All six screen composables are in the <code>screens</code> package. Data classes <code>User</code> and <code>MedicationItem</code> are in <code>SignUpScreen.kt</code> and <code>AddMedicationScreen.kt</code>. CSV utility functions are in <code>LoginScreen.kt</code> and <code>SymptomsScreen.kt</code>.</p>
+          <p>The most critical parts are: the SharedPreferences + Gson integration (backbone of login, sign-up, and medication persistence) and the CSV parsing functions (Band A data foundation). Without either, the app doesn't work.</p>
+        </section>
+        <section class="tab-panel" id="zh-q6">
+          <div class="zh-section">
+            <h5>🎯 这题考什么</h5>
+            <p>考你能不能<strong>从高层次讲清楚整个代码结构</strong>，而不是一个个文件细节地说。先说架构，再说关键部分。</p>
+          </div>
+          <div class="key-point">
+            <strong>用这个框架讲：</strong>入口层（MainActivity）→ 导航层（currentScreen + when）→ Screen 层（6个 composable）→ 数据层（CSV + SharedPreferences）
+          </div>
+          <div class="zh-section">
+            <h5>📌 四层结构解释</h5>
+            <ul>
+              <li><strong>入口层：</strong><code>MainActivity.onCreate</code> → <code>setContent</code> → 启动整个 Compose UI 树</li>
+              <li><strong>导航层：</strong><code>currentScreen</code> state 变量 + <code>when</code> 块 → 决定渲染哪个 Screen</li>
+              <li><strong>Screen 层：</strong>6个 composable 函数，每个负责一个页面，通过 lambda 参数和外部通信</li>
+              <li><strong>数据层：</strong>CSV（<code>assets/</code> 只读）+ SharedPreferences（Gson 读写）两个来源</li>
+            </ul>
+          </div>
+          <div class="zh-section">
+            <h5>📌 最关键的两个部分</h5>
+            <ul>
+              <li><strong>SharedPreferences + Gson：</strong>支撑了登录验证、注册、药物持久化，是 App 的数据骨架</li>
+              <li><strong>CSV 解析函数：</strong>是 Band A 的数据基础，没有 CSV 就没有预设用户和预设药物</li>
+            </ul>
+          </div>
+          <div class="followup-box">
+            <strong>⚠️ 老师可能追问：</strong>
+            <p>"你的 data class 放在哪里？" → User 在 SignUpScreen.kt，MedicationItem 在 AddMedicationScreen.kt（可以顺带说"这是一个代码组织上的改进点，理想情况应该在 Models.kt"）</p>
+          </div>
+        </section>
+        <section class="tab-panel" id="ide-q6">
+          <div class="tip-box"><strong>从 MainActivity.kt 开始，按顺序讲</strong></div>
+          <pre>// 1. 读 SP 检查 session（HD4）
+val loggedInUser = sharedPref.getString("logged_in_patient_id", "")
+
+// 2. 决定初始 screen
+var currentScreen by remember { mutableStateOf(
+    if (loggedInUser.isNullOrEmpty()) "welcome" else "home"
+) }
+
+// 3. when 块映射所有路由
+when (currentScreen) {
+    "welcome" -> WelcomeScreen(...)
+    "login"   -> LoginScreen(...)
+    "signup"  -> SignUpScreen(...)
+    "home"    -> HomeScreen(...)
+    "addMedication" -> AddMedicationScreen(...)
+    "symptoms" -> SymptomsScreen(...)
+}</pre>
+          <p>"整个 App 的导航逻辑都在这里，每个 case 对应一个 Screen composable。"</p>
+        </section>
+      </div>
+    </article>
+
+    <!-- Q7 -->
+    <article class="question-card" id="q7" data-search="q7 error handling edge cases validation blank dosage regex phone password isValid">
+      <div class="question-header">
+        <div><div class="q-badge code">Q7 · Code</div><h2>Error Handling</h2></div>
+        <button class="collapse-btn" data-target="q7-body">收起</button>
+      </div>
+      <div class="question-prompt">"How does your code handle error scenarios or edge cases? Can you provide an example of a specific strategy you used?"</div>
+      <div class="question-body" id="q7-body">
+        <div class="tabs">
+          <button class="tab active" data-tab="en-q7">English Answer</button>
+          <button class="tab" data-tab="zh-q7">中文解析</button>
+          <button class="tab" data-tab="ide-q7">IDE Prep</button>
+        </div>
+        <section class="tab-panel active" id="en-q7">
+          <p>Error handling works at the form level. Each field has a corresponding <code>*Error</code> state variable initialised to an empty string. When Save is clicked, all error variables are cleared first, then each validation rule runs. If a rule fails, its error string is set and <code>isValid</code> becomes false. Compose recomposes and shows the error text below the failing field. As soon as the user types again, <code>onValueChange</code> clears that field's error — so feedback is immediate both ways.</p>
+          <p>A specific example is the dosage field in Add Medication. The regex <code>^\d+(\.\d+)?\s*(mg|ml|g)$</code> handles the integer case, decimal case, optional whitespace, and case-insensitive units. If the field isn't blank but doesn't match, the error "Enter a valid dosage like 500mg or 10ml" appears.</p>
+          <p>In Sign Up, phone uniqueness is checked against both CSV and SharedPreferences — so a user who tries to re-register with the same phone gets "Phone number already registered" regardless of which source holds their account.</p>
+        </section>
+        <section class="tab-panel" id="zh-q7">
+          <div class="zh-section">
+            <h5>🎯 这题考什么</h5>
+            <p>考你有没有做<strong>具体的表单验证</strong>，而不是只能说"我做了 validation"。要能指着代码讲流程。</p>
+          </div>
+          <div class="zh-section">
+            <h5>📌 验证模式：isValid + *Error state 变量</h5>
+            <p>这是整个项目里所有表单验证的统一模式：</p>
+            <ul>
+              <li>每个需要验证的字段对应一个 <code>var xxxError by remember { mutableStateOf("") }</code></li>
+              <li>点 Save 时：先把所有 error 清空 → 然后逐条检查 → 不通过则设 error 字符串 + <code>isValid = false</code></li>
+              <li>error 字符串不为空时，<code>isError = nameError.isNotEmpty()</code> 让输入框变红，并在下面显示错误文字</li>
+              <li>用户重新输入时，<code>onValueChange</code> 里清除对应 error，给即时反馈</li>
+              <li><code>isValid</code> 为 true 才执行保存逻辑</li>
+            </ul>
+          </div>
+          <div class="zh-section">
+            <h5>📌 具体例子要能背出来</h5>
+            <ul>
+              <li><strong>AddMedication dosage：</strong>先判 blank，再判 regex，两个错误消息不一样（"不能为空" vs "格式不对"）</li>
+              <li><strong>SignUp phone：</strong>判长度 + 开头 + 全数字 + CSV重复 + SP重复，五个条件</li>
+              <li><strong>SignUp password：</strong>长度 ≥ 8，包含字母，包含数字</li>
+            </ul>
+          </div>
+          <div class="followup-box">
+            <strong>⚠️ 老师可能追问：</strong>
+            <p>"如果两个字段都错了，会同时显示两个 error 吗？" → 会的，因为 isValid 标志只是控制是否执行保存，不会 early return，所有验证都会执行</p>
+          </div>
+        </section>
+        <section class="tab-panel" id="ide-q7">
+          <div class="tip-box"><strong>AddMedicationScreen.kt</strong> — 找 validation 代码块（Save 按钮 onClick 里）</div>
+          <pre>var isValid = true
+nameError = ""; dosageError = ""; frequencyError = ""; timeError = ""
+
+if (name.isBlank()) { nameError = "Medication name cannot be empty"; isValid = false }
+
+if (dosage.isBlank()) {
+    dosageError = "Dosage cannot be empty"; isValid = false
+} else if (!dosage.matches(dosageRegex)) {
+    dosageError = "Enter a valid dosage like 500mg or 10ml"; isValid = false
+}
+
+if (frequency.isBlank()) { frequencyError = "Please select frequency"; isValid = false }
+if (time.isBlank()) { timeError = "Please select time"; isValid = false }
+
+if (isValid) { /* 保存逻辑 */ }</pre>
+          <div class="tip-box"><strong>SignUpScreen.kt</strong> — 重复手机号检查（同时查 CSV 和 SP）</div>
+          <pre>val inCsv = csvPatients.any { it[1] == phone }
+val inSp = userList.any { it.phone == phone }
+if (inCsv || inSp) { phoneError = "Phone number already registered"; isValid = false }</pre>
+        </section>
+      </div>
+    </article>
+
+    <!-- Q8 -->
+    <article class="question-card" id="q8" data-search="q8 tradeoffs navcontroller currentscreen symptoms not persist taken toggle in-memory spec">
+      <div class="question-header">
+        <div><div class="q-badge code">Q8 · Code</div><h2>Design Trade-offs</h2></div>
+        <button class="collapse-btn" data-target="q8-body">收起</button>
+      </div>
+      <div class="question-prompt">"What trade-offs did you consider when making technical decisions, and how did these affect the functionality or performance of your code?"</div>
+      <div class="question-body" id="q8-body">
+        <div class="tabs">
+          <button class="tab active" data-tab="en-q8">English Answer</button>
+          <button class="tab" data-tab="zh-q8">中文解析</button>
+          <button class="tab" data-tab="ide-q8">IDE Prep</button>
+        </div>
+        <section class="tab-panel active" id="en-q8">
+          <p>The most significant trade-off was <code>currentScreen</code> vs NavController. The benefit is simplicity — all routes visible in one <code>when</code> block, callbacks are straightforward. The limitation is manual back-stack management. For HD4 logout, I handle this by explicitly clearing the SharedPreferences session and resetting to "welcome", so the state machine can't return to Home without re-authenticating.</p>
+          <p>The second trade-off was the in-memory taken toggles. <code>mutableStateListOf</code> holds the checkbox states, which reset when you navigate away. The spec explicitly says this is acceptable for A1 — persistence of taken state is deferred. The benefit is zero SharedPreferences writes per checkbox change, keeping the UI snappy.</p>
+          <p>For Symptoms, I chose not to persist new entries to SharedPreferences. Again, the spec says the form "does not persist the entry" in A1. The validation and Snackbar still give the user clear feedback that their input was accepted.</p>
+        </section>
+        <section class="tab-panel" id="zh-q8">
+          <div class="zh-section">
+            <h5>🎯 这题考什么</h5>
+            <p>考你有没有<strong>主动意识到</strong>某些决定是有代价的，而不是"什么都是最好的"。Trade-off 必须说两面：得到了什么，放弃了什么，为什么这个权衡是合理的。</p>
+          </div>
+          <div class="key-point">
+            <strong>回答框架：</strong>我选择了 A，放弃了 B。好处是 X，限制是 Y。这个权衡合理因为 Z（通常是 spec 允许 / 课程阶段合适）。
+          </div>
+          <div class="zh-section">
+            <h5>📌 三个 Trade-off 要背熟</h5>
+            <ul>
+              <li>
+                <strong>Trade-off 1：currentScreen vs NavController</strong><br>
+                ✅ 好处：所有路由在一个 when 块里，清晰可读，lambda 回调简单直接<br>
+                ❌ 限制：手动管理 back stack，不能自动处理系统返回键<br>
+                ✔ 合理：6个页面，线性流，手动管 back stack 完全可控
+              </li>
+              <li>
+                <strong>Trade-off 2：Taken 状态只在内存（mutableStateListOf）</strong><br>
+                ✅ 好处：不用每次勾选都写 SP，UI 响应快<br>
+                ❌ 限制：切换 Screen 后状态丢失<br>
+                ✔ 合理：Spec 明确说 A1 不需要持久化 taken 状态
+              </li>
+              <li>
+                <strong>Trade-off 3：Symptoms 新记录不持久化</strong><br>
+                ✅ 好处：逻辑简单，表单验证 + Snackbar 已经满足 spec<br>
+                ❌ 限制：刷新后记录消失<br>
+                ✔ 合理：Spec 明确说"does not persist the entry"，A2 才需要
+              </li>
+            </ul>
+          </div>
+          <div class="warn-box"><strong>关键：</strong>所有这些 trade-off 都要说"这是根据 spec 要求和课程阶段做的有意取舍"，不是因为懒或不会。</div>
+        </section>
+        <section class="tab-panel" id="ide-q8">
+          <div class="tip-box"><strong>HomeScreen.kt</strong> — takenStates（只在内存）</div>
+          <pre>val takenStates = remember(patientMedications.size) {
+    mutableStateListOf&lt;Boolean&gt;().apply {
+        repeat(patientMedications.size) { add(false) }
+    }
+}
+// 说："这里用 mutableStateListOf，每次勾选触发 recomposition，
+//       但切换页面后重置——spec 允许这样，A1 不需要持久化"</pre>
+          <div class="tip-box"><strong>SymptomsScreen.kt</strong> — Save 按钮不写 SP</div>
+          <pre>if (isValid) {
+    scope.launch { snackbarHostState.showSnackbar("Symptom validated and saved!") }
+    category = ""; severity = 5f; notes = ""; date = ""; time = ""
+    // 说："这里只重置表单，没有写 SharedPreferences——spec 明确 A1 不持久化症状"
+}</pre>
+        </section>
+      </div>
+    </article>
+
+    <!-- Q9 -->
+    <article class="question-card" id="q9" data-search="q9 complex sections dual source medication merge hd1 map normalize list string">
+      <div class="question-header">
+        <div><div class="q-badge code">Q9 · Code</div><h2>Complex Sections</h2></div>
+        <button class="collapse-btn" data-target="q9-body">收起</button>
+      </div>
+      <div class="question-prompt">"Identify a particularly complex section of your code — can you explain its functionality and why you chose this approach?"</div>
+      <div class="question-body" id="q9-body">
+        <div class="tabs">
+          <button class="tab active" data-tab="en-q9">English Answer</button>
+          <button class="tab" data-tab="zh-q9">中文解析</button>
+          <button class="tab" data-tab="ide-q9">IDE Prep</button>
+        </div>
+        <section class="tab-panel active" id="en-q9">
+          <p>The most complex section is the HD1 dual-source medication merge in HomeScreen. The challenge is that two data sources return different types: CSV medications are <code>List&lt;List&lt;String&gt;&gt;</code> and SharedPreferences medications are <code>List&lt;MedicationItem&gt;</code>.</p>
+          <p>The solution is to normalise the SharedPreferences type first. I use <code>.filter</code> to keep only the current patient's medications, then <code>.map</code> to convert each <code>MedicationItem</code> into a <code>List&lt;String&gt;</code> with the same column order as the CSV. After that, <code>csvMedications + spMedications</code> is a simple concatenation of two <code>List&lt;List&lt;String&gt;&gt;</code>. The UI loop uses <code>forEachIndexed</code> and accesses values with <code>med.getOrNull(1)</code> for name, <code>med.getOrNull(2)</code> for dosage, and so on.</p>
+          <p>The second complex section is the HD2 patient ID generation — scanning all existing IDs from both sources, finding the max numeric part, and incrementing it to guarantee uniqueness.</p>
+        </section>
+        <section class="tab-panel" id="zh-q9">
+          <div class="zh-section">
+            <h5>🎯 这题考什么</h5>
+            <p>考你能不能<strong>找到代码里最有技术含量的部分</strong>，并且解释清楚它的原理，而不只是说"这里挺复杂的"。</p>
+          </div>
+          <div class="zh-section">
+            <h5>📌 重点讲 HD1 双来源合并（最复杂，最值得讲）</h5>
+            <p><strong>问题根源：</strong>CSV 返回的是 <code>List&lt;List&lt;String&gt;&gt;</code>，SP 返回的是 <code>List&lt;MedicationItem&gt;</code>，Kotlin 里这两个类型不一样，不能直接 <code>+</code> 合并。</p>
+            <p><strong>解决思路：</strong>用 <code>.map</code> 把 MedicationItem 转成和 CSV 同一格式的 <code>List&lt;String&gt;</code>，列的顺序必须和 CSV 保持一致（patientId, name, dosage, frequency, time, type, notes）。</p>
+            <p><strong>合并后：</strong>两个 <code>List&lt;List&lt;String&gt;&gt;</code> 用 <code>+</code> 合并，UI 不需要知道哪条药来自哪里，统一用 <code>med.getOrNull(1)</code> 取名字。</p>
+            <p><strong>对应知识：</strong>Week 4 的 filter + map 集合操作，也是 Kotlin 函数式编程的基础。</p>
+          </div>
+          <div class="zh-section">
+            <h5>📌 第二复杂：HD2 患者 ID 生成</h5>
+            <ul>
+              <li>扫描 CSV + SP 里所有 ID</li>
+              <li>过滤出以 "P" 开头的 ID，提取数字部分</li>
+              <li>找最大值，+1 生成新 ID</li>
+              <li>这是一个自定义算法，不是 API 调用，面试时要能讲清楚逻辑</li>
+            </ul>
+          </div>
+          <div class="followup-box">
+            <strong>⚠️ 老师可能追问：</strong>
+            <p>"如果 CSV 里 ID 是 P1001，SP 里已经有 P1002，新用户会是 P1003 吗？" → 对，因为 <code>allIds = csvIds + spIds</code> 合并了两边所有 ID，maxIdNum 会是 1002，新 ID 是 P1003</p>
+          </div>
+        </section>
+        <section class="tab-panel" id="ide-q9">
+          <div class="tip-box"><strong>HomeScreen.kt</strong> — 完整的双来源合并代码</div>
+          <pre>// Step 1: 读 CSV 药物，按 patientId 过滤
+val csvMedications = allCsvMedications.filter { row -> row.getOrNull(0) == patientId }
+
+// Step 2: 读 SP 药物，过滤 + 转换格式
+val spMedications = spMedicationsRaw
+    .filter { it.patientId == patientId }           // 只保留当前用户的
+    .map { med ->
+        listOf(med.patientId, med.name, med.dosage, // 转成和 CSV 同格式
+               med.frequency, med.time, med.type, med.notes)
+    }
+
+// Step 3: 合并（两个相同类型的 List，可以直接 +）
+val patientMedications = csvMedications + spMedications
+
+// Step 4: UI 遍历
+patientMedications.forEachIndexed { index, med ->
+    Text(text = med.getOrNull(1) ?: "")  // 取名字（index 1）
+    Text(text = "Dosage: ${med.getOrNull(2) ?: ""}")  // 取剂量（index 2）
+}</pre>
+        </section>
+      </div>
+    </article>
+
+    <!-- Q10 -->
+    <article class="question-card" id="q10" data-search="q10 refactoring optimize utils models bounds checking navcontroller room">
+      <div class="question-header">
+        <div><div class="q-badge code">Q10 · Code</div><h2>Refactoring Opportunities</h2></div>
+        <button class="collapse-btn" data-target="q10-body">收起</button>
+      </div>
+      <div class="question-prompt">"Given additional time or resources, what parts of your code would you refactor or optimize, and what benefits would these changes bring?"</div>
+      <div class="question-body" id="q10-body">
+        <div class="tabs">
+          <button class="tab active" data-tab="en-q10">English Answer</button>
+          <button class="tab" data-tab="zh-q10">中文解析</button>
+          <button class="tab" data-tab="ide-q10">IDE Prep</button>
+        </div>
+        <section class="tab-panel active" id="en-q10">
+          <p>The highest-priority refactor would be moving the CSV utility functions to a <code>Utils.kt</code> file. Right now <code>readPatients</code> and <code>readMedications</code> live in <code>LoginScreen.kt</code> even though <code>HomeScreen</code>, <code>SymptomsScreen</code>, and <code>SignUpScreen</code> all call them. This creates a confusing dependency where screen files reference other screen files.</p>
+          <p>Second, I'd move <code>User</code> and <code>MedicationItem</code> to a <code>Models.kt</code> file. They're defined inside screen files but referenced across the project, which creates awkward cross-file dependencies.</p>
+          <p>Third, I'd add row size guards to the CSV parsing. <code>row[3]</code> on a short row causes an <code>ArrayIndexOutOfBoundsException</code>. A simple check like <code>if (row.size >= 4)</code> before accessing columns makes the parsing defensive.</p>
+          <p>For future assignments, switching to a Room database would be the right move — SharedPreferences stores everything as one JSON blob, meaning you have to deserialise and re-serialise the whole list to add one item. Room would handle that cleanly with DAOs.</p>
+        </section>
+        <section class="tab-panel" id="zh-q10">
+          <div class="zh-section">
+            <h5>🎯 这题考什么</h5>
+            <p>和 Q5 类似，考你对代码的<strong>批判性认识</strong>。区别是 Q5 是"重做会改什么"，Q10 是"有时间会优化什么"——可以说更多技术细节。</p>
+          </div>
+          <div class="zh-section">
+            <h5>📌 按优先级排的重构点</h5>
+            <ul>
+              <li><strong>Priority 1 — Utils.kt（最容易被 tutor 注意到）：</strong>函数 <code>readPatients</code> / <code>readMedications</code> 定义在 LoginScreen，但被 HomeScreen、SymptomsScreen、SignUpScreen 调用。应该提取到 Utils.kt，消除 screen 文件之间的奇怪依赖关系。</li>
+              <li><strong>Priority 2 — Models.kt：</strong><code>User</code> 在 SignUpScreen，<code>MedicationItem</code> 在 AddMedicationScreen，但都被多个文件引用。单独一个 Models.kt 让数据类的位置一目了然。</li>
+              <li><strong>Priority 3 — CSV 防御性解析：</strong>现在直接用 <code>row[3]</code>，如果 CSV 有格式问题（某行列数不够）会崩溃。用 <code>getOrNull(3) ?: ""</code> 或者 <code>if (row.size >= 4)</code> 检查。</li>
+              <li><strong>Priority 4 — Room DB（面向 A2）：</strong>SharedPreferences 存的是一整个 JSON blob，每次添加一条药物都要把整个列表反序列化再序列化。数据量大时性能差。Room 用 DAO 处理单条记录的增删查，更合适。</li>
+            </ul>
+          </div>
+          <div class="key-point">
+            提 Room 的时候不要说"Room 比 SP 好所以应该用 Room"——要说"SP 对 A1 这个规模足够，但 Room 在 A2 引入结构化数据时更合适，因为不需要每次操作一条数据都反序列化整个列表"。
+          </div>
+        </section>
+        <section class="tab-panel" id="ide-q10">
+          <div class="tip-box"><strong>LoginScreen.kt</strong> — 指 readPatients 和 readMedications 说"这两个函数跨文件被调用，应该在 Utils.kt"</div>
+          <pre>// LoginScreen.kt 定义了，但其他 Screen 也在调：
+// HomeScreen.kt:    val patients = remember { readPatients(context) }
+// HomeScreen.kt:    val allCsvMedications = remember { readMedications(context) }
+// SymptomsScreen.kt 里 readSymptoms 也是同样的问题</pre>
+        </section>
+      </div>
+    </article>
+
+    <!-- Q11 -->
+    <article class="question-card" id="q11" data-search="q11 project summary medtrack medication symptom 6 screens csv sharedpreferences band hd">
+      <div class="question-header">
+        <div><div class="q-badge overall">Q11 · Overall</div><h2>Project Summary</h2></div>
+        <button class="collapse-btn" data-target="q11-body">收起</button>
+      </div>
+      <div class="question-prompt">"Can you provide a concise summary of your project, highlighting the main features, challenges, and successes?"</div>
+      <div class="question-body" id="q11-body">
+        <div class="tabs">
+          <button class="tab active" data-tab="en-q11">English Answer</button>
+          <button class="tab" data-tab="zh-q11">中文解析</button>
+          <button class="tab" data-tab="ide-q11">IDE Prep</button>
+        </div>
+        <section class="tab-panel active" id="en-q11">
+          <p>MedTrack is a medication and symptom self-management Android app built with Kotlin and Jetpack Compose. It has six screens: Welcome, Login, Sign Up, Home, Add Medication, and Symptoms. The user flow goes Welcome → Login or Sign Up → Home → Add Medication or Symptoms.</p>
+          <p>Data comes from two sources: pre-loaded CSV files in <code>assets/</code> for existing patient records and medications, and SharedPreferences via Gson for new user accounts and medications added through the app. I completed all three bands plus all four HD extensions — dual-source medication merge, robust patient ID generation, real-time severity feedback, and session persistence with logout.</p>
+          <p>The main challenge was HD1 — unifying two different data types for the medication list. The biggest success is that the full flow works end-to-end: a brand new user can sign up, log in, add medications that immediately appear on the Home screen merged with the CSV data, log symptoms, and log out.</p>
+        </section>
+        <section class="tab-panel" id="zh-q11">
+          <div class="zh-section">
+            <h5>🎯 这题考什么</h5>
+            <p>考你能不能<strong>用1-2分钟讲清楚整个项目</strong>。这是面试开场或结尾最常见的问法。要有结构：是什么 → 怎么做的 → 遇到了什么 → 成功了什么。</p>
+          </div>
+          <div class="key-point">
+            <strong>回答模板（可以直接背）：</strong><br>
+            MedTrack 是一个 medication 和 symptom 管理的 Android App，用 Kotlin + Jetpack Compose 开发。有 6 个 Screen，用 currentScreen + when 做导航。数据来自两个来源：CSV 只读，SharedPreferences + Gson 读写。完成了 Band A/B/C 全部要求，加上 4 个 HD。主要挑战是 HD1 双来源合并。
+          </div>
+          <div class="zh-section">
+            <h5>📌 一定要提的关键词</h5>
+            <ul>
+              <li>6 个 Screen，流程：Welcome → Login/SignUp → Home → AddMed/Symptoms</li>
+              <li>数据来源：CSV（只读）+ SharedPreferences（Gson 读写）</li>
+              <li>Band A + B + C 全部实现，4 个 HD 全部实现</li>
+              <li>主要挑战：HD1 数据类型不一致，用 .map 标准化解决</li>
+              <li>主要成功：完整流程从头到尾跑通，新用户注册→登录→加药→Home 合并显示</li>
+            </ul>
+          </div>
+        </section>
+        <section class="tab-panel" id="ide-q11">
+          <p>运行 App 给 tutor 看完整流程：</p>
+          <ul>
+            <li>Welcome → Login（P1001 / 0412345678 / pass1234）→ Home（看到 CSV 里的 Metformin、Lisinopril）</li>
+            <li>Add Medication → 加一个药 → 回 Home 看到合并列表（HD1）</li>
+            <li>Symptoms → 展示历史 + 拖动 Slider 看颜色变化（HD3）</li>
+            <li>Logout → 回 Welcome（HD4）</li>
+          </ul>
+        </section>
+      </div>
+    </article>
+
+    <!-- Q12 -->
+    <article class="question-card" id="q12" data-search="q12 communication clarity explain technical accessible user perspective analogy">
+      <div class="question-header">
+        <div><div class="q-badge overall">Q12 · Overall</div><h2>Communication Clarity</h2></div>
+        <button class="collapse-btn" data-target="q12-body">收起</button>
+      </div>
+      <div class="question-prompt">"How do you ensure that your technical explanations are clear and accessible, especially to someone unfamiliar with the project details?"</div>
+      <div class="question-body" id="q12-body">
+        <div class="tabs">
+          <button class="tab active" data-tab="en-q12">English Answer</button>
+          <button class="tab" data-tab="zh-q12">中文解析</button>
+          <button class="tab" data-tab="ide-q12">IDE Prep</button>
+        </div>
+        <section class="tab-panel active" id="en-q12">
+          <p>I try to start with what something does from the user's perspective before getting into how it works. For example, rather than saying "I use a mutableStateOf string variable as a navigation controller," I'd say "the app always knows which screen to show because there's one variable tracking the current screen name — change it, and Compose automatically re-renders the right screen."</p>
+          <p>For SharedPreferences, I'd describe it as "Android's built-in simple storage — like a browser's local storage. It only handles primitive types, so I use Gson to turn my objects into text strings before saving, and convert them back when reading."</p>
+          <p>I also use the code itself as a communication aid — pointing at a specific line is often clearer than a verbal description. For instance, showing <code>csvMedications + spMedications</code> makes the merge immediately visual.</p>
+        </section>
+        <section class="tab-panel" id="zh-q12">
+          <div class="zh-section">
+            <h5>🎯 这题考什么</h5>
+            <p>考你的<strong>沟通能力和表达方式</strong>，不是技术本身。要表现出你知道怎么调整解释的深度，让不同背景的人都能听懂。</p>
+          </div>
+          <div class="zh-section">
+            <h5>📌 三种解释策略，各有场合</h5>
+            <ul>
+              <li><strong>先说用户视角，再说技术实现：</strong>"当前 Screen 是由一个变量控制的，换变量值就换页面" → 然后说 mutableStateOf / when 的技术细节</li>
+              <li><strong>用类比：</strong>SharedPreferences → "Android 版的浏览器 localStorage，只能存字符串，所以用 Gson 把对象变成字符串再存"；CSV → "Excel 文件，每行是一条记录，按逗号分隔"</li>
+              <li><strong>指代码让代码说话：</strong><code>csvMedications + spMedications</code> 比说"我合并了两个来源的数据"直观得多</li>
+            </ul>
+          </div>
+          <div class="key-point">
+            <strong>在实际面试中：</strong>如果 tutor 问"你能解释一下 SharedPreferences 怎么工作的吗"，先说"它是 Android 的内置 key-value 存储，只支持基本类型"，再说"因为要存对象，所以我用 Gson 序列化成 JSON 字符串"，边说边指代码。
+          </div>
+        </section>
+        <section class="tab-panel" id="ide-q12">
+          <p class="muted">打开 MainActivity.kt 的 when 块 + HomeScreen.kt 里的 SP 读取代码，作为解释时的视觉辅助。</p>
+        </section>
+      </div>
+    </article>
+
+    <!-- Q13 -->
+    <article class="question-card" id="q13" data-search="q13 strengths improvements hd extensions validation real-time severity code organisation">
+      <div class="question-header">
+        <div><div class="q-badge overall">Q13 · Overall</div><h2>Strengths and Improvements</h2></div>
+        <button class="collapse-btn" data-target="q13-body">收起</button>
+      </div>
+      <div class="question-prompt">"What do you consider your greatest strengths in this project, and in which areas do you see room for improvement?"</div>
+      <div class="question-body" id="q13-body">
+        <div class="tabs">
+          <button class="tab active" data-tab="en-q13">English Answer</button>
+          <button class="tab" data-tab="zh-q13">中文解析</button>
+          <button class="tab" data-tab="ide-q13">IDE Prep</button>
+        </div>
+        <section class="tab-panel active" id="en-q13">
+          <p>The greatest strength is completeness — all three bands are implemented, all four HD extensions are working, and the full user flow runs end-to-end. Validation is field-specific with inline errors rather than generic toast messages. The dual-source medication merge means any patient, whether from CSV or newly registered, sees a unified medication list.</p>
+          <p>Another strength is the real-time severity feedback in the Symptoms screen. The slider colour and label update continuously as the user drags — this required understanding that derived values computed inside the composable body recompute on every recomposition triggered by the slider.</p>
+          <p>Room for improvement: code organisation (utility functions and data classes should be in dedicated files), defensive CSV parsing (missing bounds checks on row size), and using NavController would make the back-stack handling more explicit.</p>
+        </section>
+        <section class="tab-panel" id="zh-q13">
+          <div class="zh-section">
+            <h5>🎯 这题考什么</h5>
+            <p>考你对自己工作的<strong>客观评估</strong>。既不过度自夸，也不过度贬低。Strength 要具体，Improvement 要真实。</p>
+          </div>
+          <div class="zh-section">
+            <h5>📌 Strengths（讲这3个最有力）</h5>
+            <ul>
+              <li><strong>完整性：</strong>Band A + B + C 全部，4 个 HD 全部实现，完整 end-to-end 流程跑通</li>
+              <li><strong>HD3 实时 Severity 反馈：</strong>Slider 拖动时颜色和标签实时更新，体现了对 Compose recomposition 的真实理解——派生值在 composable 函数体里计算，每次 recompose 自动重算</li>
+              <li><strong>字段级别验证：</strong>每个字段有自己的 error state，错误消息具体（"Must be 10 digits starting with 04"），不是泛泛的 "Invalid input"</li>
+            </ul>
+          </div>
+          <div class="zh-section">
+            <h5>📌 Improvements（直接说这3个，显示自知）</h5>
+            <ul>
+              <li>代码组织：工具函数和 data class 放在 screen 文件里，应该在 Utils.kt / Models.kt</li>
+              <li>CSV 防御性解析：缺少 row size 检查</li>
+              <li>NavController：back stack 管理更明确</li>
+            </ul>
+          </div>
+        </section>
+        <section class="tab-panel" id="ide-q13">
+          <div class="tip-box"><strong>SymptomsScreen.kt</strong> — HD3 实时 Severity 颜色</div>
+          <pre>val severityColor = when (severityInt) {
+    in 1..3 -> Color(0xFF4CAF50)  // 绿色 = Mild
+    in 4..6 -> Color(0xFFFFC107)  // 黄色 = Moderate
+    else    -> Color(0xFFF44336)  // 红色 = Severe
+}
+Slider(colors = SliderDefaults.colors(
+    thumbColor = severityColor, activeTrackColor = severityColor))</pre>
+          <p>"Slider 拖动时 severity 变 → recomposition → severityColor 重算 → Slider 颜色实时变化。"</p>
+        </section>
+      </div>
+    </article>
+
+    <!-- Q14 -->
+    <article class="question-card" id="q14" data-search="q14 adaptability adapt quickly homescreen csv sharedpreferences list string format merge">
+      <div class="question-header">
+        <div><div class="q-badge overall">Q14 · Overall</div><h2>Adaptability</h2></div>
+        <button class="collapse-btn" data-target="q14-body">收起</button>
+      </div>
+      <div class="question-prompt">"Describe a situation during the project where you had to adapt quickly — how did you handle it and what was the outcome?"</div>
+      <div class="question-body" id="q14-body">
+        <div class="tabs">
+          <button class="tab active" data-tab="en-q14">English Answer</button>
+          <button class="tab" data-tab="zh-q14">中文解析</button>
+          <button class="tab" data-tab="ide-q14">IDE Prep</button>
+        </div>
+        <section class="tab-panel active" id="en-q14">
+          <p>When building the Home screen, I initially planned to only show medications from SharedPreferences. But re-reading the spec, Band A requires loading from CSV filtered by patient ID. I adapted to make CSV the primary source first, then in Band B added SharedPreferences medications on top.</p>
+          <p>Then for HD1 I had to merge both. The challenge was the type mismatch — <code>List&lt;List&lt;String&gt;&gt;</code> vs <code>List&lt;MedicationItem&gt;</code>. I adapted by mapping the <code>MedicationItem</code> objects to <code>List&lt;String&gt;</code> in the same column order as the CSV, then concatenating. The outcome was a seamless unified list that HD1 requires.</p>
+        </section>
+        <section class="tab-panel" id="zh-q14">
+          <div class="zh-section">
+            <h5>🎯 这题考什么</h5>
+            <p>考你<strong>遇到意外情况的反应能力</strong>。要讲具体的场景：我原来打算怎么做 → 发现了什么问题 → 怎么改变思路 → 结果是什么。</p>
+          </div>
+          <div class="zh-section">
+            <h5>📌 完整的"适应"故事线</h5>
+            <ul>
+              <li><strong>原计划：</strong>HomeScreen 只从 SharedPreferences 读药物显示</li>
+              <li><strong>发现问题：</strong>重读 spec，Band A 要求从 CSV 读数据，按 patientId 过滤显示</li>
+              <li><strong>第一次适应：</strong>先做 CSV 为主，再在 Band B 加上 SP 的新药物</li>
+              <li><strong>新问题：</strong>要合并两个来源，但类型不一样（<code>List&lt;List&lt;String&gt;&gt;</code> vs <code>List&lt;MedicationItem&gt;</code>）</li>
+              <li><strong>第二次适应：</strong>用 <code>.map</code> 把 MedicationItem 转换成 <code>List&lt;String&gt;</code>，再用 <code>+</code> 合并</li>
+              <li><strong>结果：</strong>统一的 <code>patientMedications</code> 列表，UI 不需要区分来源，HD1 实现了</li>
+            </ul>
+          </div>
+          <div class="key-point">
+            <strong>讲这个故事的好处：</strong>展示了你认真读 spec、遇到技术问题能自己解决、有迭代思维。这比"我很快适应了"这种空话有力得多。
+          </div>
+        </section>
+        <section class="tab-panel" id="ide-q14">
+          <div class="tip-box"><strong>HomeScreen.kt</strong> — 指这两行，说"这就是适应后的结果"</div>
+          <pre>val csvMedications = allCsvMedications.filter { it[0] == patientId }  // Band A：CSV 来源
+// ...
+val patientMedications = csvMedications + spMedications  // HD1：两个来源合并</pre>
+          <p>"这里就是合并的地方，CSV 的药在前面，SP 加的在后面，UI 统一遍历。"</p>
+        </section>
+      </div>
+    </article>
+
+    <!-- Q15 -->
+    <article class="question-card" id="q15" data-search="q15 future application career development room mvvm compose state management assignment2">
+      <div class="question-header">
+        <div><div class="q-badge overall">Q15 · Overall</div><h2>Future Application</h2></div>
+        <button class="collapse-btn" data-target="q15-body">收起</button>
+      </div>
+      <div class="question-prompt">"How will the experiences and lessons learned from this project influence your future work or career development?"</div>
+      <div class="question-body" id="q15-body">
+        <div class="tabs">
+          <button class="tab active" data-tab="en-q15">English Answer</button>
+          <button class="tab" data-tab="zh-q15">中文解析</button>
+          <button class="tab" data-tab="ide-q15">IDE Prep</button>
+        </div>
+        <section class="tab-panel active" id="en-q15">
+          <p>This project gave me practical experience with the full lifecycle of a mobile app — reading external data, authenticating users, persisting new data, and reflecting changes in the UI. Before this, I understood Compose from the labs in theory; building a complete app from scratch made me much more comfortable with how state management, recomposition, and data flow actually work together in practice.</p>
+          <p>I also learned to read specs carefully and distinguish between what's required versus what might be nice to have — for example, not over-engineering the Symptoms persistence when the spec explicitly deferred it to Assignment 2. That kind of prioritisation is something I'll carry forward.</p>
+          <p>Looking ahead, this project lays the groundwork for Assignment 2 where I understand we'll introduce a Room database and MVVM architecture. Having built the SharedPreferences layer myself, I can see concretely why Room is better for structured data — it's not just theoretical. That motivation makes me want to learn those patterns properly.</p>
+        </section>
+        <section class="tab-panel" id="zh-q15">
+          <div class="zh-section">
+            <h5>🎯 这题考什么</h5>
+            <p>考你的<strong>成长意识和学习态度</strong>。这是开放题，不需要背，但要有具体的技术收获 + 工程方法收获 + 对未来的连接。</p>
+          </div>
+          <div class="zh-section">
+            <h5>📌 三个层面的收获</h5>
+            <ul>
+              <li>
+                <strong>技术收获：</strong>
+                从 lab 的碎片知识变成了完整 App 的实践。特别是 Compose state management（recomposition 如何让 UI 自动响应）、SharedPreferences + Gson 的实际配合、CSV 解析。不再只是"知道有这个"，而是"真的用过、踩过坑、改过 bug"。
+              </li>
+              <li>
+                <strong>工程方法：</strong>
+                读懂 spec 再写代码的重要性（Symptoms 那个例子），不要 over-engineer，按课程阶段做合理取舍而不是追求"最先进方案"。
+              </li>
+              <li>
+                <strong>对 A2 的铺垫：</strong>
+                SP 的限制（一个 JSON blob，每次操作都要全部反序列化）让我真正理解了 Room 为什么更适合结构化数据。这不是纯理论，是通过自己写过 SP 版本才真正感受到的。
+              </li>
+            </ul>
+          </div>
+          <div class="tip-box"><strong>面试当天 Checklist（interview 前10分钟速查）</strong>
+            <ul style="margin-top:8px;">
+              <li>□ 打开 AVD Manager，启动模拟器</li>
+              <li>□ 跑完整流程（Welcome→Login→Home→AddMed→Symptoms→Logout）</li>
+              <li>□ 确认测试账号：P1001 / 0412345678 / pass1234</li>
+              <li>□ MainActivity.kt → when(currentScreen) 结构</li>
+              <li>□ LoginScreen.kt → 三段 if-else 登录逻辑</li>
+              <li>□ SignUpScreen.kt → maxIdNum for loop（HD2）</li>
+              <li>□ HomeScreen.kt → csvMedications + spMedications（HD1）</li>
+              <li>□ AddMedicationScreen.kt → dosageRegex + isValid 验证流程</li>
+              <li>□ SymptomsScreen.kt → severityColor when + Slider（HD3）</li>
+            </ul>
+          </div>
+        </section>
+        <section class="tab-panel" id="ide-q15">
+          <p class="muted">这题是职业发展类开放题，不需要特定 IDE 操作。自然回答即可，可以用上面的 Checklist 做面试前最后检查。</p>
+        </section>
+      </div>
+    </article>
+
+    
+    <!-- ═══════════════════════════════════════════════════
+         PART 3: EXTRA INTERVIEW PREP
+    ═══════════════════════════════════════════════════ -->
+    <div class="section-divider"><h3>🧠 Part 3 — 补强到“完全满足要求”的部分</h3></div>
+
+    <div class="walk-card" id="pt4-design">
+      <div class="wc-header">
+        <div class="wc-icon purple">🧩</div>
+        <div>
+          <p class="wc-title" style="margin:0;font-size:1.1rem;font-weight:700;">第4部分：按功能讲“我是怎么想到这样做的”</p>
+          <p class="wc-subtitle">把 requirement、取舍、课程范围、面试可解释性放在一起讲</p>
+        </div>
+      </div>
+
+      <h4>Welcome Screen</h4>
+      <ul>
+        <li><strong>Requirement：</strong>做一个清楚的入口页，能去 Login / Sign Up，并展示基本 app 信息。</li>
+        <li><strong>为什么这样做：</strong>我用了最基础的 Column、Box、Button 组合，因为这是 Week 2 已经学过的布局，最好讲，也最稳定。</li>
+        <li><strong>为什么没选更高级方案：</strong>这个页面本身不需要复杂状态和导航框架，重点是清楚展示入口，不需要 over-engineer。</li>
+        <li><strong>为什么适合当前课程阶段：</strong>这正好体现 Compose 基础布局、Modifier、点击事件。</li>
+        <li><strong>面试里怎么讲：</strong>“我把 Welcome 做成一个很基础但完整的入口页，因为它的任务不是做复杂逻辑，而是让用户一眼知道这个 app 是干什么的，并能进入两个主要流程。”</li>
+      </ul>
+
+      <h4>Login</h4>
+      <ul>
+        <li><strong>Requirement：</strong>验证用户身份，支持 CSV 预设账户，也支持新注册用户。</li>
+        <li><strong>为什么这样做：</strong>我先查 CSV，再查 SharedPreferences，因为作业本身就有两种用户来源。</li>
+        <li><strong>为什么没选数据库：</strong>Week 2/3/4 重点不是 Room 或复杂架构，这里用 SharedPreferences + Gson 已经足够。</li>
+        <li><strong>为什么适合当前课程阶段：</strong>能自然讲到 if-else、find、SharedPreferences、CSV 读取。</li>
+        <li><strong>面试里怎么讲：</strong>“Login 最重要的设计点不是界面，而是我把两种来源的用户都考虑进去了，所以不会出现 CSV 用户能登、新注册用户不能登的问题。”</li>
+      </ul>
+
+      <h4>Sign Up</h4>
+      <ul>
+        <li><strong>Requirement：</strong>完成表单验证、避免重复手机号、生成新的 patient ID。</li>
+        <li><strong>为什么这样做：</strong>我把验证拆成一个个基础判断，因为 Week 3/4 学的就是这种直接、清楚的验证流程。</li>
+        <li><strong>为什么没选更高级表单库：</strong>课程没要求，也不利于面试讲解原理。</li>
+        <li><strong>为什么适合当前课程阶段：</strong>能讲到 remember、mutableStateOf、Regex、SharedPreferences、for loop。</li>
+        <li><strong>面试里怎么讲：</strong>“我希望 tutor 一眼能看懂我每条规则，所以我没有把逻辑藏起来，而是按字段一个个验证。”</li>
+      </ul>
+
+      <h4>Session Persistence</h4>
+      <ul>
+        <li><strong>Requirement：</strong>关掉 app 再打开时，如果用户已经登录，就直接进 Home。</li>
+        <li><strong>为什么这样做：</strong>我把当前登录的 patientId 存在 SharedPreferences，启动时先读它。</li>
+        <li><strong>为什么没选更复杂状态管理：</strong>这个需求本质上只是一个小型持久化键值问题，没必要上更复杂方案。</li>
+        <li><strong>为什么适合当前课程阶段：</strong>正好对应 Week 4 的 SharedPreferences。</li>
+        <li><strong>面试里怎么讲：</strong>“HD4 的重点不是花哨，而是用户体验更完整，说明我不只是让页面能跑，还考虑了重新打开 app 的情况。”</li>
+      </ul>
+
+      <h4>Home Medication List</h4>
+      <ul>
+        <li><strong>Requirement：</strong>显示当前用户的 medication 列表。</li>
+        <li><strong>为什么这样做：</strong>先按 patientId 过滤 CSV，再把 SP 里新增的药物合并进来。</li>
+        <li><strong>为什么没把所有数据一开始就统一成数据库：</strong>因为 A1 的重点是先把两种基础来源讲清楚，而不是做复杂数据层。</li>
+        <li><strong>为什么适合当前课程阶段：</strong>这里能讲到 filter、map、find、mutableStateListOf。</li>
+        <li><strong>面试里怎么讲：</strong>“Home 其实是整个 app 最核心的结果页，因为前面的注册、登录、加药，最后都要在这里体现出来。”</li>
+      </ul>
+
+      <h4>Add Medication</h4>
+      <ul>
+        <li><strong>Requirement：</strong>完成表单输入、validation、保存、返回 Home 后能看到新药。</li>
+        <li><strong>为什么这样做：</strong>我用了最直接的表单状态 + isValid 流程，这样每个错误都能单独显示。</li>
+        <li><strong>为什么没选更复杂验证框架：</strong>不符合课程范围，也会让面试解释变复杂。</li>
+        <li><strong>为什么适合当前课程阶段：</strong>可以自然讲到 OutlinedTextField、Regex、TimePickerDialog、Snackbar、SharedPreferences。</li>
+        <li><strong>面试里怎么讲：</strong>“这部分我最想强调的是，保存不只是把数据写进去，还要保证格式先过关，所以 validation 是这个页面最关键的逻辑。”</li>
+      </ul>
+
+      <h4>Symptoms Logging / History</h4>
+      <ul>
+        <li><strong>Requirement：</strong>记录症状表单，显示历史症状，并做 severity 反馈。</li>
+        <li><strong>为什么这样做：</strong>我用 Slider 表示 1 到 10 的严重程度，因为这种输入最直观，也和 spec 很匹配。</li>
+        <li><strong>为什么没做持久化：</strong>因为 spec 明确说 A1 只要验证并显示 success message，不需要真正保存。</li>
+        <li><strong>为什么适合当前课程阶段：</strong>能讲到 Slider、DatePickerDialog、when、reversed。</li>
+        <li><strong>面试里怎么讲：</strong>“Symptoms 这页最能体现我有认真读 spec，因为我知道它现在是记录和展示，不是完整数据库写入。”</li>
+      </ul>
+
+      <h4>CSV Reading / SharedPreferences Persistence / Dual-source Merge</h4>
+      <ul>
+        <li><strong>Requirement：</strong>CSV 提供预设数据，SP 存放运行时新数据，Home 要把两个来源合并。</li>
+        <li><strong>为什么这样做：</strong>这是最贴合 spec 的基础实现，逻辑也最容易从头讲清楚。</li>
+        <li><strong>为什么没选高级方案：</strong>如果一开始就跳到 Room、Repository、ViewModel，反而脱离 Week 2/3/4。</li>
+        <li><strong>为什么适合当前课程阶段：</strong>完全围绕课程学过的内容：assets、SharedPreferences、Gson、filter/map。</li>
+        <li><strong>面试里怎么讲：</strong>“我不是不会更高级方案，而是这次我刻意选择了最符合当前课程范围、最容易解释、也最符合作业要求的实现。”</li>
+      </ul>
+    </div>
+
+    <div class="walk-card" id="pt5-script">
+      <div class="wc-header">
+        <div class="wc-icon blue">🗣</div>
+        <div>
+          <p class="wc-title" style="margin:0;font-size:1.1rem;font-weight:700;">第5部分：从零开始讲这份代码的完整口头讲稿</p>
+          <p class="wc-subtitle">这段可以直接拿去练口语</p>
+        </div>
+      </div>
+      <div class="zh-section">
+        <p>“My project is MedTrack, which is an Android app built with Kotlin and Jetpack Compose. The goal of the app is to help patients manage their medications and symptoms in a simple way.</p>
+        <p>The app has six screens: Welcome, Login, Sign Up, Home, Add Medication, and Symptoms. The general user flow is Welcome, then Login or Sign Up, then Home, and from Home the user can go to Add Medication or Symptoms.</p>
+        <p>In terms of navigation, I used a simple <code>currentScreen</code> string in MainActivity with a <code>when</code> block. I chose this because the app only has a small number of screens and a fairly linear flow, so this approach is easy to trace and also easy to explain in an interview.</p>
+        <p>The app uses two main data sources. The first one is CSV files stored in assets, which provide preset patient accounts, preset medications, and symptom history. The second one is SharedPreferences with Gson, which stores runtime data such as newly registered users, newly added medications, and the currently logged-in patient ID.</p>
+        <p>For Login, I check both CSV users and SharedPreferences users, because the app has to support both preloaded accounts and new accounts created during use. For Sign Up, I validate the fields first, then generate a new unique patient ID by scanning the existing IDs from both CSV and SharedPreferences and adding one to the maximum number.</p>
+        <p>The Home screen is very important because it shows the medication list for the current patient. For the HD merge requirement, I combine medications from CSV and SharedPreferences. CSV data comes in as <code>List&lt;List&lt;String&gt;&gt;</code>, while SharedPreferences data is stored as <code>MedicationItem</code> objects, so I used <code>map</code> to convert the objects into the same string-list format before merging them.</p>
+        <p>In Add Medication, I used form validation for every important field. A good example is the dosage field, where I used a regex to make sure values like 500mg or 10ml are valid. If validation passes, the new medication is added to SharedPreferences. When the user goes back to Home, the composable re-reads the latest data, so the new medication appears automatically.</p>
+        <p>In Symptoms, I implemented symptom logging and symptom history display. I also completed the HD real-time severity feedback by changing the color and label based on the slider value. I did not persist the new symptom entry because the spec for A1 says it only needs validation and a success message, not permanent saving.</p>
+        <p>Most of the project is based on Week 2, 3, and 4 content. Week 2 is mainly the Compose layout and UI components. Week 3 is state management with <code>remember</code>, <code>mutableStateOf</code>, and screen switching. Week 4 is data handling, including SharedPreferences, Gson, CSV parsing, dialogs, regex validation, and collection operations like <code>filter</code>, <code>map</code>, and <code>reversed</code>.</p>
+        <p>If I summarise my design choices, I would say I deliberately chose a basic but reasonable implementation. It matches the assignment scope, stays within the course content, and is much easier to explain clearly in the Week 6 interview.”</p>
+      </div>
+    </div>
+
+    <div class="walk-card" id="pt7-risk">
+      <div class="wc-header">
+        <div class="wc-icon red">⚠️</div>
+        <div>
+          <p class="wc-title" style="margin:0;font-size:1.1rem;font-weight:700;">第7部分：最容易被问住的地方</p>
+          <p class="wc-subtitle">按优先级列出来，面试前一定看</p>
+        </div>
+      </div>
+      <ol style="padding-left:1.2em; line-height:1.8;">
+        <li><strong>HD1 双来源合并原理：</strong>如果你只会说“我把两个 list 加起来了”，很容易被追问类型为什么能加、为什么要先 map。这个一定要背熟。</li>
+        <li><strong>为什么不用 NavController：</strong>不能回答“因为我不会”。要回答“对这个 app 规模，currentScreen + when 更基础、足够、而且更贴合课程阶段”。</li>
+        <li><strong>为什么 Symptoms 不持久化：</strong>如果你不知道这是 spec 明确写的，就很容易被问住。</li>
+        <li><strong>SignUp 的 patient ID 生成：</strong>要能讲清楚为什么要同时看 CSV 和 SharedPreferences，为什么从最大数字 + 1 开始。</li>
+        <li><strong>Dosage regex：</strong>至少要会解释 <code>^\d+(\.\d+)?\s*(mg|ml|g)$</code> 这几个部分分别是什么意思。</li>
+        <li><strong>Compose recomposition：</strong>为什么加药后回 Home 会自动刷新，不需要你手动点 refresh，这个最好能讲清楚。</li>
+        <li><strong>SharedPreferences 里到底存了什么：</strong>用户列表、药物列表、logged_in_patient_id，这个要说完整。</li>
+        <li><strong>CSV 为什么只读：</strong>因为 assets 打包进 APK 后就是只读资源，不是你主动偷懒不写回去。</li>
+      </ol>
+      <div class="danger-box"><strong>最危险的回答方式：</strong>“这个我就是这样写的”“这个应该可以吧”“我照着 sample 改的”。这些都会很容易被继续追问。</div>
+    </div>
+
+    <div class="walk-card" id="pt8-why">
+      <div class="wc-header">
+        <div class="wc-icon green">❔</div>
+        <div>
+          <p class="wc-title" style="margin:0;font-size:1.1rem;font-weight:700;">第8部分：老师可能追问的“为什么”</p>
+          <p class="wc-subtitle">每个都给你：简单版 + 深一点 + 继续追问怎么补</p>
+        </div>
+      </div>
+
+      <h4>为什么用 currentScreen 而不是 NavController？</h4>
+      <p><strong>简单版：</strong>因为这个 app 的 screen 不多，而且流程比较线性，<code>currentScreen + when</code> 已经足够清楚。</p>
+      <p><strong>深一点：</strong>我希望把所有导航都集中在 MainActivity，一个 when 块就能看到全部页面切换逻辑，这对 Week 6 interview 也更容易解释。</p>
+      <p><strong>继续追问时补充：</strong>如果以后 screen 更多、back stack 更复杂，NavController 会更合适，但对 A1 当前规模，基础方案更合理。</p>
+
+      <h4>为什么用 SharedPreferences？</h4>
+      <p><strong>简单版：</strong>因为这次作业要做基础持久化，SharedPreferences 很适合存这种小规模数据。</p>
+      <p><strong>深一点：</strong>我需要保存登录状态、新注册用户和新药物，用 SharedPreferences 配合 Gson 就能完成对象列表的存取。</p>
+      <p><strong>继续追问时补充：</strong>我知道 Room 更适合结构化数据，但那已经超出这次重点，所以我把它放在未来优化里说。</p>
+
+      <h4>为什么 CSV 只读不写？</h4>
+      <p><strong>简单版：</strong>因为 assets 里的 CSV 是打包进 app 的只读资源。</p>
+      <p><strong>深一点：</strong>CSV 在这个作业里主要是提供 preset 数据，比如已有病人和默认药物，不适合拿来做运行时写入。</p>
+      <p><strong>继续追问时补充：</strong>所以新增数据我才会放到 SharedPreferences，这样职责更清楚。</p>
+
+      <h4>为什么注册用户要存在 SharedPreferences？</h4>
+      <p><strong>简单版：</strong>因为注册是运行时产生的新数据，不能写回 assets。</p>
+      <p><strong>深一点：</strong>SignUp 完成后，后续 Login 还要能找到这个用户，所以我把它持久化到 SharedPreferences。</p>
+      <p><strong>继续追问时补充：</strong>这也解释了为什么 Login 要同时检查 CSV 和 SharedPreferences。</p>
+
+      <h4>为什么 Home 要 merge 两种 medication 数据？</h4>
+      <p><strong>简单版：</strong>因为用户的药物既可能来自 CSV 预设数据，也可能来自运行时新增。</p>
+      <p><strong>深一点：</strong>如果只显示其中一个来源，Home 就不是完整结果页，所以我必须把两边统一后一起显示。</p>
+      <p><strong>继续追问时补充：</strong>真正难点不是“合并”两个字，而是先把不同类型的数据转换成相同格式。</p>
+
+      <h4>为什么 AddMedication 要做 regex validation？</h4>
+      <p><strong>简单版：</strong>因为 dosage 不是随便填都行，必须满足数字加单位。</p>
+      <p><strong>深一点：</strong>regex 可以一次覆盖整数、小数、可选空格和单位大小写，逻辑比很多层 if 判断更清楚。</p>
+      <p><strong>继续追问时补充：</strong>我这里的 regex 也完全在课程可解释范围内，不是为了炫技。</p>
+
+      <h4>为什么 Symptoms 用 slider？</h4>
+      <p><strong>简单版：</strong>因为 severity 是 1 到 10 的范围值，slider 最直观。</p>
+      <p><strong>深一点：</strong>slider 也很适合做 HD3 的实时颜色反馈，因为值一变，Compose 会马上重组并更新颜色和标签。</p>
+      <p><strong>继续追问时补充：</strong>这也让我能自然讲到 Week 3 的 state 和 recomposition。</p>
+
+      <h4>为什么历史记录要倒序？</h4>
+      <p><strong>简单版：</strong>因为用户通常更想先看到最新记录。</p>
+      <p><strong>深一点：</strong>CSV 原本是按时间顺序往下排，所以用 <code>reversed()</code> 后，最新症状就会显示在顶部。</p>
+      <p><strong>继续追问时补充：</strong>这也是很基础但实用的集合操作，正好对应 Week 4。</p>
+
+      <h4>为什么 WelcomeScreen 要有 header / banner？</h4>
+      <p><strong>简单版：</strong>因为入口页要让用户一眼知道这个 app 是什么。</p>
+      <p><strong>深一点：</strong>我用最基础的 Box、background 和圆角样式做了视觉重点，让 Welcome 不只是两个按钮堆在一起。</p>
+      <p><strong>继续追问时补充：</strong>它不只是“好看”，而是帮助信息层次更清楚。</p>
+
+      <h4>为什么你的代码这样拆文件？</h4>
+      <p><strong>简单版：</strong>因为每个 screen 单独一个文件，最清楚。</p>
+      <p><strong>深一点：</strong>这样做和 Compose 的 composable 思路也一致，每个页面负责自己的 UI 和主要逻辑，MainActivity 只管导航。</p>
+      <p><strong>继续追问时补充：</strong>我也知道还有可以改进的地方，比如把 Utils 和 Models 再独立出来，这也是我在 refactor 部分会说的。</p>
+    </div>
+
+    <div class="walk-card" id="pt9-memo">
+      <div class="wc-header">
+        <div class="wc-icon amber">📝</div>
+        <div>
+          <p class="wc-title" style="margin:0;font-size:1.1rem;font-weight:700;">第9部分：面试前 10 分钟背诵提纲</p>
+          <p class="wc-subtitle">最后冲刺用这个最快</p>
+        </div>
+      </div>
+      <div class="tip-box"><strong>1. App Flow</strong>
+        <p>Welcome → Login / Sign Up → Home → Add Medication / Symptoms → Logout</p>
+      </div>
+      <div class="tip-box"><strong>2. 各 Screen 作用</strong>
+        <p>Welcome 入口；Login 验证；SignUp 注册；Home 显示药物；AddMedication 保存新药；Symptoms 记录和显示症状。</p>
+      </div>
+      <div class="tip-box"><strong>3. 数据来源</strong>
+        <p>CSV：patients.csv / medications.csv / symptoms.csv；SharedPreferences：users、medications、logged_in_patient_id。</p>
+      </div>
+      <div class="tip-box"><strong>4. Validation</strong>
+        <p>Login：账号存在 / 密码正确；SignUp：姓名、手机号、密码、确认密码；AddMedication：name、dosage、frequency、time；Symptoms：date、symptom、severity、notes。</p>
+      </div>
+      <div class="tip-box"><strong>5. 关键实现思路</strong>
+        <p>currentScreen + when 导航；SharedPreferences + Gson 持久化；CSV 只读；Home 合并 CSV 和 SP 药物；Symptoms 的 Slider 做 HD3 颜色反馈。</p>
+      </div>
+      <div class="tip-box"><strong>6. Week 2 / 3 / 4</strong>
+        <p>Week 2：UI 组件和布局；Week 3：state、remember、screen switching；Week 4：SharedPreferences、Gson、CSV、dialogs、Regex、filter/map/reversed。</p>
+      </div>
+      <div class="warn-box"><strong>7. 最容易被问住</strong>
+        <p>HD1 merge、dosage regex、为什么不用 NavController、为什么 Symptoms 不持久化、patient ID 生成逻辑。</p>
+      </div>
+      <div class="danger-box"><strong>8. 面试时最好主动提</strong>
+        <p>“我刻意用了课程范围内最基础但合理的实现，因为这样最符合 assignment，也最容易清楚解释。”</p>
+      </div>
+    </div>
+
+    <p class="footer-note">MedTrack 完整面试指南 v2（全中文解析版）· Haixin Yue 35737735 · FIT2081 S1 2026 · Part 1: 项目逐屏讲解 + Part 2: 15道面试题完整问答</p>
+  </main>
+</div>
+
+<script>
+  // Search
+  const searchBox = document.getElementById('searchBox');
+  const cards = [...document.querySelectorAll('.question-card')];
+  const navLinks = [...document.querySelectorAll('.nav-question')];
+
+  searchBox.addEventListener('input', () => {
+    const q = searchBox.value.trim().toLowerCase();
+    cards.forEach(card => {
+      card.classList.toggle('hidden', !(!q || card.dataset.search?.includes(q)));
+    });
+    navLinks.forEach(link => {
+      const target = link.getAttribute('href');
+      if (!target?.startsWith('#q')) return;
+      const el = document.querySelector(target);
+      link.classList.toggle('hidden', !!(q && el?.classList.contains('hidden')));
+    });
+  });
+
+  // Tabs
+  document.querySelectorAll('.tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const parent = btn.closest('.question-body');
+      parent.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      parent.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      const panel = parent.querySelector('#' + CSS.escape(btn.dataset.tab));
+      if (panel) panel.classList.add('active');
+    });
+  });
+
+  // Collapse
+  document.querySelectorAll('.collapse-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const body = document.getElementById(btn.dataset.target);
+      const isHidden = body.classList.toggle('hidden');
+      btn.textContent = isHidden ? '展开' : '收起';
+    });
+  });
+
+  document.getElementById('expandAll').addEventListener('click', () => {
+    document.querySelectorAll('.question-body').forEach(el => el.classList.remove('hidden'));
+    document.querySelectorAll('.collapse-btn').forEach(btn => btn.textContent = '收起');
+  });
+  document.getElementById('collapseAll').addEventListener('click', () => {
+    document.querySelectorAll('.question-body').forEach(el => el.classList.add('hidden'));
+    document.querySelectorAll('.collapse-btn').forEach(btn => btn.textContent = '展开');
+  });
+
+  // Active nav on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const link = document.querySelector(`.nav-question[href="#${entry.target.id}"]`);
+      if (!link) return;
+      if (entry.isIntersecting) {
+        navLinks.forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px', threshold: 0 });
+
+  document.querySelectorAll('.walk-card[id], .question-card[id]').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
